@@ -1,0 +1,638 @@
+---
+title: "CODA 19 -  Phenotyper"
+# Methodology and preliminary results"
+author:
+  - Eric Yamga
+date: "2021-01-24"
+documentclass: article
+papersize: letter
+fontsize: 11pt
+bibliography: template.bib
+biblio-style: asa
+keywords: Template, R Markdown, bookdown, Data Lab
+output:
+  bookdown::pdf_document2
+  bookdown::html_document2
+abstract: |
+    This is a brief presentation of the methodology used for the CODA19 phenotyper project and some of the preliminary results.
+    N.B. Those results do not include the imaging portion of the project and only includes the data from the CHUM.
+---
+  
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+## To facilitate the outputting of the project
+## Sys.time() r format('%d %B %Y')`
+## I suggest save.image (file = "markdown.RData") and loading load('.Rdata)
+## some utility functions, see the source code for details
+source("utils_template.R")
+load("./markdown.RData")
+
+## specify the packages needed
+pkgs <- c("bookdown","DT", "leaflet", "splines2", "webshot", "bigrquery","plotly","scales","RColorBrewer","data.table","tidyverse","knitr","corrplot",
+          "cluster", "Rtsne", "FactoMineR", "factoextra", 'fpc', 'NbClust', 'rjson',
+          "Hmisc","stats", "janitor", "lubridate", "testthat", "magrittr", "bookdown",
+          "purrr", "healthcareai", "RSQLite", "comorbidity", "DataExplorer", "skimr", "summarytools",
+          "explore", "dataMaid", "explor", "slickR", "htmlwidgets", "kableExtra")
+
+need.packages(pkgs)
+
+## external data can be read in by regular functions,
+## such as read.table or load
+
+## for latex and html output
+isHtml <- knitr::is_html_output()
+isLatex <- knitr::is_latex_output()
+latex <- ifelse(isLatex, '\\LaTeX\\', 'LaTeX')
+
+## specify global chunk options
+knitr::opts_chunk$set(fig.width = 5, fig.height = 4, dpi = 300,
+                      out.width = "90%", fig.align = "center")
+
+# To create references
+# Citation [@koohafkan2015kfigr]
+# Sections  \@ref(sec:theorem) 
+```
+
+
+# Introduction {#sec:intro}
+
+The objective of this project was to identify clinical phenotypes in patients with COVID-19, 
+assess their interaction with the response to specific supportive management strategies, 
+and evaluate their association with outcomes.
+
+In this document, we will successively describe the different steps that were undertook :
+
+*   Data \@ref(sec:data) 
+    + Data wrangling
+    + Data description \@ref(sec:description) 
+*   Feature Engineering \@ref(sec:feature) 
+*   Clustering \@ref(sec:clustering) 
+*   Clustering validation \@ref(sec:validation) 
+*   Results  \@ref(sec:results) 
+
+
+# Data {#sec:data}
+
+The CODA19 database was used for the project.
+Data for the following variables were available for analysis :
+
+*   Comorbidities
+*   Demographics (age, gender)
+*   Vitals signs
+*   Labs
+*   Drugs
+*   Intervention (mechanical ventilation)
+*   Outcomes (death, icu admission)
+
+
+### SQL querying and Data Wrangling 
+
+```{r coda19, echo = TRUE, eval= FALSE, message = FALSE, warning = FALSE}
+# This chunk of code queries the CODA19 database and runs SQL scripts extracting the aforementionned data
+coda19 <- DBI::dbConnect(RSQLite::SQLite(), "../py_eyamga/covidb_version-1.0.0.db")
+files_path <- list.files(path = "./sql", full.names=TRUE)
+files_names <- as_tibble(str_split_fixed(list.files(path = "./sql"), pattern =".sql", n=2))[[1]]
+dflist = list()
+for (i in seq_along(files_path)){
+  #dbGetQuery(coda19, statement = read_file(files_path[i]))
+  tmp <-  dbGetQuery(coda19, statement = read_file(files_path[i]))
+  assign(files_names[i], tmp)
+  dflist[[i]] = tmp
+  write.csv(x = dflist[i], file = paste0(files_names[i], ".csv"))
+}
+```
+
+The output of this step was all the aforementioned variables for all COVID 19 hospitalizations. A COVID 19 hospitalization was defined as any hospitalization episode of patient with a positive COVID-19 PCR test within 73 days of the admission. To reduce the number of features, drugs were mapped to MESH classes using the RxClass API and ICD10 codes were mapped to Charlson's comorbidities. 
+
+3 different datasets were obtained at different timestamp from the admission : **24h**, **48h**, and **72h**.
+
+### Data description {#sec:description}
+
+Here is a preview of the raw dataset at 24 hours.
+
+```{r coda19data rawdata, echo = FALSE, message = FALSE}
+raw <- read_csv("../data/notimputed/covid24h_notimputed.csv")
+DT::datatable(raw, width = '90%', options = list(scrollX = TRUE))
+```
+
+For more details, take a look a the complete descriptive statistics in the following pdf files.
+
+### Handling missing data
+
+We removed all variables for which more than 35% of the data was missing, and all observations for which more than 35% of the variables were missing. 
+We imputed the remaining data using simple CART imputation a methodology that is robust against outliers, multicollinearity and skewed distributions.
+Imputation was conducted using all variables except the death and the patient identifiers.
+
+```{r coda19imputation, echo = TRUE, eval= FALSE}
+# Getting predictorMatrix and modifying it to exclude 2 variables from the imputation set 
+matrix_72h <- mice::mice(covid_72h2, method = "cart", m=1, maxit = 0)
+pred_matrix72h <- matrix_72h$predictorMatrix
+pred_matrix72h[,'patient_site_uid'] <- 0
+pred_matrix72h[,'death'] <- 0
+
+# Imputing
+covidimputer <- mice::mice(covid_72h2, pred = pred_matrix72h, method = "cart", m=1)
+covid72h_imputed <- complete(covidimputer, 1)
+```
+
+The description of the imputed datasets was also provided as pdf files.
+Briefly :
+
+*   24h dataset : n=358, 135 variables
+*   48h dataset : n=380, 144 variables
+*   72h dataset : n=400, 144 variables
+
+# Feature engineering  {#sec:feature}
+
+## Initial PCA and MCA
+
+This will be done using the 72h dataset.
+
+To select the most important variables we conducted PCA on the continuous variables and MCA on the categorical variables.
+```{r loading the data, echo = FALSE, eval= TRUE, message = FALSE, warning = FALSE}
+library(cluster)
+library(Rtsne)
+library(cowplot)
+library(svglite)
+library(FactoMineR)
+library(factoextra)
+library(fpc)
+library(NbClust)
+
+coda19 <- read_csv("../data/imputed/covid72h_imputed.csv")
+# Removing duplicates
+coda19 <- coda19%>%distinct(patient_site_uid, .keep_all = TRUE)
+coda19 <- coda19%>%select(-patient_site_uid) # Removing ID from the clustering algorithm
+# coda19 <- coda19%>%select(-death)
+
+# Separating categorical from numerical variables
+coda19 <- coda19%>%mutate_if(function(x){(length(unique(x)) <= 13)}, function(x){as.factor(x)})
+coda19 <- coda19%>%mutate_if(function(x){(length(unique(x)) >= 13)}, function(x){as.numeric(x)})
+
+coda19_continuous <- coda19%>%select_if(is.numeric)
+coda19_categorical <- coda19%>%select_if(is.factor)
+
+# All continuous variables
+# Adding two categorical variables to better observe PCA results
+coda19_continuous$death <- coda19$death
+coda19_continuous$mv <- coda19$mv
+
+
+```
+
+
+### PCA on all continuous variables
+
+Because the dataset contained continuous variables in different format (min, max, mean), we used PCA to choose the subtype that mostly explained the variance in the data.
+
+```{r PCA, echo = TRUE, eval= TRUE, out.width = '55%', fig.show = 'hold'}
+pca.coda19 <- PCA(coda19_continuous,
+                  quali.sup = c(54, 55),
+                  graph = FALSE)
+
+fviz_pca_var(pca.coda19,
+             col.var = "contrib", # Color by contributions to the PC alternatives, color by cos2
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )
+```
+The PCA variable plot is messy but still shows use the most important continuous variables in our dataset.
+To have a better appreciation of the results, below are the variables with most important cos2 on PC1 and PC2.
+
+```{r, out.width = '55%'}
+fviz_cos2(pca.coda19, choice = "var", axes = 1:2, top=20) # Seeing mots important cos2 variables on PC1 and PC2
+```
+
+However, when looking at the overall capacity of our principal components to explain the variation of our data, the 5 PCs only explain 44% of the variance.
+
+```{r}
+head(pca.coda19$eig)
+```
+
+### MCA on all categorical variables
+ 
+The similar exercise was conducted using MCA on the categorical variables
+
+```{r, out.width = '55%'}
+mca.coda19 <- MCA(coda19_categorical,
+                  quali.sup = c(90), # Removing death from observation but MV kept
+                  graph = FALSE)
+
+fviz_mca_var(mca.coda19,
+             col.var = "contrib", # Color by contributions to the PC alternatives, color by cos2
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )
+```
+The MCA variable plot seems to show a pattern for ICU admitted patients as sedation, muscular blocking agents and mechanical ventilation are all in the same area of the plot. The other medications do not seem to form a particular group.
+
+Looking at the percentage of variance, the results are not particularly powerful because of the curse of dimensionality : in other words, over 90 medications group were included in this portion of the analysis but some were only rarely found in the dataset.
+
+```{r}
+print(head(mca.coda19$eig))
+```
+
+Once again, we identified the most contributive variables in order to determine which one would be kept for the second portion of the analysis. 
+
+N.B. Comorbidities ended not being candidate variables.
+
+```{r MCA, echo = TRUE, eval= FALSE}
+fviz_contrib(mca.coda19, choice = "var", axes = 1, top = 10)
+```
+
+## PCA, MCA and FAMD on selected variables
+
+As mentioned earlier, we selected the most *important* variables as it relates to the initial PCA and MCA analysis to respectively select the candidate continuous and categorical variables for our clustering effort.
+
+We reconducted PCA and MCA with those selected variables only and showed an increase in the variance explained by the principal components validating our selection.
+
+### PCA with updated variables
+
+```{r}
+coda19_continuous_labs <- coda19%>%select(c("patient_age", "hemoglobin_min", "plt_max", "wbc_max", "neutrophil_max", 
+                                       "lymph_min", "mono_max", "eos_min", "sodium_min",
+                                       "creatinine_max"))
+
+coda19_continuous_vitals <- coda19%>%select(c("sbp_max", "sbp_min", "dbp_mean", "temp_max", "temp_min", "so2_min", "rr_mean"))
+
+
+coda19_continuous2 <- coda19_continuous_labs%>%cbind(coda19_continuous_vitals)
+coda19_continuous2$death <- coda19$death
+coda19_continuous2$mv <- coda19$mv
+coda19_continuous2$icu <- coda19$icu
+```
+
+```{r}
+# Doing PCA
+pca.coda19.continuous <- PCA(coda19_continuous2,
+                  quali.sup = c(18,19,20), #Removing ICU admission and Death from the PCA analysis
+                  graph = FALSE)
+
+```
+
+
+```{r, out.width = '55%'}
+fviz_pca_var(pca.coda19.continuous,
+             col.var = "contrib", # Color by contributions to the PC alternatives, color by cos2
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE     # Avoid text overlapping
+             )
+
+```
+```{r}
+kable(head(pca.coda19.continuous$eig))
+```
+
+### MCA on selected categorical data 
+
+```{r}
+# Selecting categorical data
+coda19_categorical2 <- coda19_categorical%>%select("female", "male", "vasopressors", "glucocorticoids", "anti_bacterial_agents", "antifungal_agents",
+                                                   "anti_ulcer_agents","immunosuppressive_agents", "diuretics", "platelet_aggregation_inhibitors",
+                                                   "sedation","neuromuscular_blocking_agents", "bronchodilator_agents", "hiv_medication", "mv", "icu",
+                                                   "death") 
+
+
+mca.coda19.categorical <- MCA(coda19_categorical2,
+                  quali.sup = c(17), # Removing death from observation but MV kept
+                  graph = FALSE)
+
+```
+
+As we can see below, the selected categorical variables are better at describing the variance of the data with cumulative percentage of 62% with 6 PCs.
+```{r}
+head(mca.coda19.categorical$eig)
+```
+
+
+The MCA does distinguish some patterns. The biplot effectively shows that the selected categorical variables are able to distinguish 2 groups of patients : ward vs icu patients mostly based on the medication.
+
+```{r, out.width = '55%'}
+fviz_mca_biplot(mca.coda19.categorical,
+             geom.ind = "point", # show points only (nbut not "text")
+             col.ind = coda19_categorical2$icu, # color by death
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, # Concentration ellipses
+             legend.title = "ICU",
+             repel = TRUE
+)
+```
+### FAMD analysis including both continuous and categorical variables
+
+The ultimate goal was to use all of the variables available continuous and categorical, in order to mine some underlying clinical patterns.
+To do so, we conducted a FAMD analysis, a component analysis that uses Gower distance to measure the dissimilarity between observations.
+
+```{r}
+# Preparing the dataset to retain only the selected variables
+coda19_complete <- coda19_continuous2%>%select(-c("death","icu","mv"))%>%cbind(coda19_categorical2) 
+```
+
+
+The results are presented below : 
+
+```{r}
+famd.coda19 <- FAMD(coda19_complete,
+                    sup.var = c(33, 34), # Removing icu and death from observation but MV kept
+                    graph = FALSE)
+
+
+print(famd.coda19$eig)
+```
+
+```{r, out.width = '55%'}
+fviz_famd_ind(famd.coda19,
+              axes = c(1,2),
+              geom.ind = "point",
+              repel = TRUE,
+              label = "none", 
+              col.ind = as.factor(coda19_complete$icu), 
+              palette = c("#0073C2FF", "#EFC000FF", "#868686FF", "#4A6990FF"),
+              addEllipses = TRUE, 
+              legend.title = "ICU")
+```
+
+```{r, out.width = '55%'}
+fviz_famd_ind(famd.coda19,
+              axes = c(1,2),
+              geom.ind = "point",
+              repel = TRUE,
+              label = "none", 
+              col.ind = as.factor(coda19_complete$death), 
+              palette = c("#0073C2FF", "#EFC000FF", "#868686FF", "#4A6990FF"),
+              addEllipses = TRUE, 
+              legend.title = "DEATH")
+```
+
+Visually, the FAMD is not *linearly* able to separate the data into clusters of *clinical* outcomes : icu admission or death.
+Bu several aspects mut consider here : 1) the data is not linearly separable, therefore FAMD might simply not be adequate to conduct the analysis in the first place 2) There are other clusters not related to clinical outcomes that can be identified.
+
+The next step of the project was to conduct cluster analysis and identifying clinical phenotypes based on the selected variables conducting PCA and CMA.
+
+# Clustering {#sec:clustering}
+
+The objective of clustering is to identify patterns and clusters within the data. It is a well documented unsupervised machine learning method used in multiple fields of molecular biology. 
+
+In our case, we leveraged this technique to identify COVID 19 phenotype using the 31 selected variables.
+More precisely, we used PAM clustering, a method that analogous to K-Means clustering but that uses medoids instead of centroids and a method that is compatible with mixed data types as in our case. 
+
+## Determining the optimal number of clusters
+
+```{r, out.width = '55%'}
+# Calculating Gower Distance
+coda19_gower <- cluster::daisy(coda19_complete%>%select(-c("death", "icu")), metric = "gower") #Removing death and icu admission from the clustering
+
+# Silhouette analysis for values of K between 2 and 10
+set.seed(123)
+
+sil_width <- c(NA)
+for(i in 2:10){
+  pam_fit <- pam(coda19_gower,
+                 diss = TRUE,
+                 k = i)
+  sil_width[i] <- pam_fit$silinfo$avg.width
+  
+}
+
+plot(1:10, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(1:10, sil_width)
+
+```
+We chose k=3 as the appropriate numbers of clusters for our dataset as it yielded the highest silhouette width. 
+
+```{r}
+pam_fit <- pam(coda19_gower, diss = TRUE, 3)
+pam_results <- coda19_complete %>%
+  mutate(cluster = pam_fit$clustering) %>%
+  group_by(cluster) %>%
+  do(the_summary = summary(.))
+
+clusters <- factor(pam_fit$clustering)
+```
+
+
+## Clusters analysis {#sec:validation}
+
+Once the PAM clustering was conducted, we assessed its validity through :
+
+*   Visualization
+*   Silhouette analysis
+*   Descriptive statistics
+
+### Visual representation
+
+
+```{r, out.width = '55%'}
+set.seed(10)
+
+tsne_obj <- Rtsne(coda19_gower, is_distance = TRUE)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = as.factor(pam_fit$clustering))
+
+p <- ggplot(aes(x = X, y = Y,), data = tsne_data) +
+    geom_point(aes(color = cluster))+
+    ggtitle("3 K PAM clustering")
+
+show(p)
+```
+```{r}
+results <- coda19_complete%>%mutate(cluster = pam_fit$clustering)
+```
+
+The following patients represent the medoids : 
+
+```{r, out.width = '55%'}
+coda19_complete[pam_fit$medoids, ]
+```
+
+
+
+### Descriptive statistics {#sec:results}
+
+A pdf file with the distribution of variables accross clusters has been provided.
+
+```{r, eval = FALSE}
+# This chunk codes exports descriptive statistics according to clusters
+autoEDA_results_k <- autoEDA(results, 
+                           y = "cluster", returnPlotList = TRUE,
+                           outcomeType = "automatic", removeConstant = TRUE, 
+                           removeZeroSpread = TRUE, removeMajorityMissing = TRUE, 
+                           imputeMissing = TRUE, clipOutliers = FALSE, 
+                           minLevelPercentage = 0.025, predictivePower = TRUE, 
+                           outlierMethod = "tukey", lowPercentile = 0.01, 
+                           upPercentile = 0.99, plotCategorical = "stackedBar", 
+                           plotContinuous = "boxplot", bins = 30, 
+                           transparency = 0.7,
+                           rotateLabels = TRUE, color = "#26A69A", 
+                           verbose = FALSE) 
+
+p <- plot_grid(plotlist = autoEDA_results_k$plots, ncol = 3)
+ggsave("cluster_analysis_3k_v2.svg", width=20,height=84, limitsize = FALSE)
+```
+
+Below a table one of the different variables across the clusters.
+
+```{r, echo = FALSE, eval = TRUE}
+alllist <- names(results)
+catlist <- names(results[sapply(results, is.factor)])
+tableOne_compared <- tableone::CreateTableOne(vars = alllist, data = results, strata = "cluster", factorVars = catlist, test=TRUE)
+```
+
+```{r}
+tableone::kableone(tableOne_compared)%>%
+  kable_classic(full_width = F, html_font = "Computer Modern")
+```
+
+
+# Experiments
+
+In the following section, we experimented with different iteration of the dataset to observe its impact on clustering.
+
+## Data as above without gender
+
+```{r, out.width = '55%'}
+# Calculating Gower Distance
+coda19_gower_nogender <- cluster::daisy(coda19_complete%>%select(-c('male','female', 'icu', 'death')) , metric = "gower")
+# Removing gender and outcome variables from the clustering 
+
+# Clustering PAM
+pam_fit_nogender <- pam(coda19_gower_nogender, diss = TRUE, 3)
+
+# Plotting on TSNE
+tsne_obj <- Rtsne(coda19_gower_nogender, is_distance = TRUE)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = as.factor(pam_fit_nogender$clustering))
+
+p <- ggplot(aes(x = X, y = Y,), data = tsne_data) +
+    geom_point(aes(color = cluster))+
+    ggtitle("3 K PAM clustering")
+
+show(p)
+
+```
+
+```{r}
+results_nogender <- coda19_complete%>%mutate(cluster = pam_fit_nogender$clustering)
+
+alllist <- names(results_nogender)
+catlist <- names(results_nogender[sapply(results_nogender, is.factor)])
+tableOne_compared <- tableone::CreateTableOne(vars = alllist, data = results_nogender, strata = "cluster", factorVars = catlist, test=TRUE)
+
+tableone::kableone(tableOne_compared)%>%
+  kable_classic(full_width = F, html_font = "Computer Modern")
+
+```
+
+## ICU patients at 72h n = 78, 44 variables
+
+```{r, out.width = '55%'}
+# Loading the ICU dataset
+
+# covidicu72h_imputed <- read_csv (./"covidicu72h_imputed_filtered.csv)
+
+# Converting appropriate columns to factor
+covidicu72h_imputed <- covidicu72h_imputed%>%mutate_if(function(x){(length(unique(x)) <= 3)}, function(x){as.factor(x)})
+
+# Calculating Gower Distance
+coda19_gower_icu <- cluster::daisy(covidicu72h_imputed%>%select(-c('male','female','death')) , metric = "gower")
+
+# Removing gender and outcome variables from the clustering 
+
+
+# Optimal K
+sil_width <- c(NA)
+for(i in 2:10){
+  pam_fit <- pam(coda19_gower_icu,
+                 diss = TRUE,
+                 k = i)
+  sil_width[i] <- pam_fit$silinfo$avg.width
+  
+}
+
+plot(1:10, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(1:10, sil_width)
+```
+
+```{r, out.width = '55%'}
+# Clustering PAM
+pam_fit_icu <- pam(coda19_gower_icu, diss = TRUE, 3)
+
+set.seed(25)
+# Plotting on TSNE
+tsne_obj <- Rtsne(coda19_gower_icu, is_distance = TRUE, perplexity = 15)
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = as.factor(pam_fit_icu$clustering))
+
+p <- ggplot(aes(x = X, y = Y,), data = tsne_data) +
+    geom_point(aes(color = cluster))+
+    ggtitle("3 K PAM clustering")
+
+show(p)
+```
+
+
+```{r, out.width = '55%'}
+results_icu <- covidicu72h_imputed%>%mutate(cluster = pam_fit_icu$clustering)
+
+alllist <- names(results_icu)
+catlist <- names(results_icu[sapply(results_icu, is.factor)])
+tableOne_compared <- tableone::CreateTableOne(vars = alllist, data = results_icu, strata = "cluster", factorVars = catlist, test=TRUE)
+
+tableone::kableone(tableOne_compared)%>%
+  kable_classic(full_width = F, html_font = "Computer Modern")
+```
+### ICU data using continuous variables only
+
+```{r}
+
+covidicu72h_imputed_cont <- covidicu72h_imputed%>%select(c("patient_age", "hemoglobin_min", "plt_max", "wbc_max", "neutrophil_max", 
+                                            "lymph_min", "mono_max", "eos_min", "sodium_min", "chloride_min", "albumin_min", "bicarbonate_min",
+                                            "bun_max", "glucose_max", "anion_gap_mean", "ptt_max", "alt_max", "ast_max", "bili_tot_max",
+                                            "tropot_max",
+                                            "lipase_max", "ck_max", "weight_mean", "fio2_max","lactate_max", "svo2sat_min", "temp_max"
+                                            ,"female", "male", "mv", "death"))
+
+
+pca.coda19 <- PCA(covidicu72h_imputed_cont,
+                  quali.sup = c(28,29, 30,31), # cat variables from the dataset not considered : death, mv, female/male
+                  graph = FALSE)
+
+```
+
+```{r,  out.width = '55%'}
+coda19.kmeans <- kmeans(covidicu72h_imputed_cont[, 1:28], centers = 3, nstart = 60)
+
+coda19.obs.clusters <- as.factor(coda19.kmeans$cluster)
+
+# Color variables by groups
+fviz_pca_ind(pca.coda19, 
+             geom.ind = "point",
+             col.ind = coda19.obs.clusters, 
+             palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
+             addEllipses = FALSE, 
+             legend.title = "Cluster")
+
+```
+
+```{r}
+results_icu <- covidicu72h_imputed_cont%>%mutate(cluster = coda19.obs.clusters)
+
+alllist <- names(results_icu)
+catlist <- names(results_icu[sapply(results_icu, is.factor)])
+tableOne_compared <- tableone::CreateTableOne(vars = alllist, data = results_icu, strata = "cluster", factorVars = catlist, test=TRUE)
+
+tableone::kableone(tableOne_compared)%>%
+  kable_classic(full_width = F, html_font = "Computer Modern")
+```
+
+
+

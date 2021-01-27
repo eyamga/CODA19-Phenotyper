@@ -1,0 +1,5 @@
+info on the cluster
+- using 24 hour data
+- using all variables (only 75% missing data was removed)
+- including potentially correlated variables, min-max-mean
+- using 3 k means clustering
