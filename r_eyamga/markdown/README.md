@@ -1,42 +1,19 @@
-Data Science Lab Project Templates
+CODA 19 Phenotyper Markdown
 ==============================
 
-The repository provides R Markdown templates for data science lab projects.
+This markdown file provides an overview of the critical steps of this data science project.
+The objective was to determine clinical phenotypes of COVID-19 using unsupervised machine learning.
 
+## Main steps
 
-## Getting Started
-
-We may download and unpack the [ZIP][zip] file of the repository, then compile
-the source document within [RStudio][rstudio] (by clicking the button *knit* or
-hitting the shortcut *Ctrl+Shift+K*).
-
-Alternatively (and probably more efficiently), we may clone the repository and
-let the Makefile help reproduce the output as follows:
-
-```bash
-git clone https://github.com/statds/dslab-templates.git
-cd dslab-templates
-make       # for output in pdf and html
-```
-
-The available targets in the Makefile include
-
-- `all`, default target for output in PDF and HTML.
-- `pdf` for PDF output only
-- `html`  for HTML output only
-- `clean` for cleaning some temporary files such as `*.log` and `*.aux`.
-- `rmCache` for cleaning cache files, which can be crucial if we modified
-    code chunk for a new evaluation.
+1) EDA
+2) Component Analysis (PCA, MCA and FAMD)
+3) K-medoid clustering (PAM clustering)
+4) Clusters validation
 
 
 ## Output Preview
 
-The output of the templates in PDF and HTML are available for preview.
-
-- [PDF](https://statds.github.io/dslab-templates/template.pdf)
-- [HTML](https://statds.github.io/dslab-templates/)
-
-
-
-[zip]: https://github.com/statds/dslab-templates/archive/master.zip
-[rstudio]: https://www.rstudio.com/
+The output is available in 
+- [PDF]
+- [HTML]
