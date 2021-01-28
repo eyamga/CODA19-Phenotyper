@@ -34,4 +34,4 @@ In order :
 - As described
 
 #### 5. Markdown folder
-- Runs entire project and modified script and outputs sharable html fule
+- Runs entire project and modified script and outputs sharable html file
