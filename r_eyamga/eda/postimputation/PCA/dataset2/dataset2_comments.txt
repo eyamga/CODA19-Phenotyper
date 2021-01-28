@@ -1,3 +1,0 @@
-Dataset 2 
-Keeping means only of all continuous variables
-Top 10 PCs - 43% of variation

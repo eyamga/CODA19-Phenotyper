@@ -1,6 +1,0 @@
-essentially this dataset is a more robust version
-in which >35% of missing columns INSTEAD of 75% were dropped
-AND
-> 35% of incomplete observations were dropped
-This results in a smaller set of candidate variables
-AND a smaller number of observations n = 351
