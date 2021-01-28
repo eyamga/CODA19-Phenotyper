@@ -1,4 +1,5 @@
 ### - This iteration is similar as the first one BUT differs from by the removal of the different collinear variables
+setwd("/data8/projets/Mila_covid19/code/eyamga/phenotyper/code/r_eyamga")
 
 #### Loading libraries
 source("./library_load.R")
