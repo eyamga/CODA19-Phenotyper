@@ -1,6 +1,6 @@
 # CODA19 phenotyper project
  
-## Files organization project
+## Files organization of the project
 
 
 ### Custom SQL scripts
