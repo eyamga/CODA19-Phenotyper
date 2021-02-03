@@ -49,4 +49,4 @@ FROM
 	covidepisodes
 	INNER JOIN intervention_data ON covidepisodes.patient_site_uid = intervention_data.patient_site_uid
 WHERE
-	datetime (intervention_start_time)  BETWEEN datetime (covidepisodes.episode_start_time, '-1 day') AND datetime (covidepisodes.episode_start_time, '2 day')
+	datetime (intervention_start_time)  BETWEEN datetime (covidepisodes.episode_start_time, '-1 day') AND datetime (covidepisodes.episode_start_time, '+2 day')

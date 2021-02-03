@@ -1,0 +1,2 @@
+Removed some medications : bzp, bicarbonate, anti-depressive, factor xa
+K = 2 recommended but no clear patterns

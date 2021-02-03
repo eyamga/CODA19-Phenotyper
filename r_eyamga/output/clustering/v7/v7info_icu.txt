@@ -1,0 +1,14 @@
+ICU dataonly
+
+Main difference
+More variables
+- chloride, phosphate, magnesium, bun
+- bun, glucose, ptt, alt, ast, bilitot, ck
+- albumin, lactate, svo2, paco2
+CRP did not make the cut
+
+Removed some categorical
+icu removed, levelofcare
+death, wave, mv 
+
+all VS except loss of blood pressures and RR

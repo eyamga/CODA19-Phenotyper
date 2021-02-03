@@ -1,0 +1,5888 @@
+---
+dataMaid: yes
+title: COVID 24h - CODA19
+subtitle: "Imputed Dataset"
+date: 2021-02-02 18:35:36
+output:
+  pdf_document :
+    latex_engine : xelatex
+  html_document:
+    df_print: paged
+geometry: margin=2cm
+documentclass: report
+header-includes:
+  - \renewcommand{\chaptername}{Part}
+  - \newcommand{\fullline}{\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}}
+  - \newcommand{\bminione}{\begin{minipage}{0.75 \textwidth}}
+  - \newcommand{\bminitwo}{\begin{minipage}{0.25 \textwidth}}
+  - \newcommand{\emini}{\end{minipage}}
+---
+```{r , echo=FALSE, include=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+library("ggplot2")
+library("pander")
+```
+
+```{r 'visualFunctions', echo=FALSE, include=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+ggAggHist <- getFromNamespace("ggAggHist", "dataMaid")
+ggAggBarplot <- getFromNamespace("ggAggBarplot", "dataMaid")
+```
+
+# Data report overview
+The dataset examined has the following dimensions:
+
+
+---------------------------------
+Feature                    Result
+------------------------ --------
+Number of observations        866
+
+Number of variables           145
+---------------------------------
+
+
+
+
+### Checks performed
+The following variable checks were performed, depending on the data type of each variable:
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+&nbsp;                                                 character    factor    labelled   haven labelled   numeric    integer    logical     Date   
+----------------------------------------------------- ----------- ---------- ---------- ---------------- ---------- ---------- --------- ----------
+Identify miscoded missing values                       $\times$    $\times$   $\times$      $\times$      $\times$   $\times$             $\times$ 
+
+Identify prefixed and suffixed whitespace              $\times$    $\times$   $\times$      $\times$                                               
+
+Identify levels with < 6 obs.                          $\times$    $\times$   $\times$      $\times$                                               
+
+Identify case issues                                   $\times$    $\times$   $\times$      $\times$                                               
+
+Identify misclassified numeric or integer variables    $\times$    $\times$   $\times$      $\times$                                               
+
+Identify outliers                                                                                         $\times$   $\times$             $\times$ 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Please note that all numerical values in the following have been rounded to 2 decimals.
+
+
+# Summary table
+
+-------------------------------------------------------------------------------------------------------------------------
+&nbsp;                                          Variable class     # unique values   Missing observations  Any problems? 
+----------------------------------------------- ---------------- ----------------- ---------------------- ---------------
+[patient\_site\_uid]                            numeric                        866                 0.00 %                
+
+[female]                                        numeric                          2                 0.00 %                
+
+[male]                                          numeric                          2                 0.00 %                
+
+[patient\_age]                                  numeric                         81                 0.00 %                
+
+[death]                                         numeric                          2                 0.00 %                
+
+[neuromuscular\_blocking\_agents]               numeric                          2                 0.00 %                
+
+[x5\_alpha\_reductase\_inhibitors]              numeric                          2                 0.00 %                
+
+[acetaminophene]                                numeric                          2                 0.00 %                
+
+[adjuvants\_anesthesia]                         numeric                          2                 0.00 %    $\times$    
+
+[adrenergic\_alpha\_1\_receptor\_antagonists]   numeric                          2                 0.00 %                
+
+[adrenergic\_beta\_3\_receptor\_agonists]       numeric                          2                 0.00 %    $\times$    
+
+[adrenergic\_beta\_antagonists]                 numeric                          2                 0.00 %                
+
+[adrenergic\_uptake\_inhibitors]                numeric                          2                 0.00 %    $\times$    
+
+[alcohol\_deterrents]                           numeric                          2                 0.00 %    $\times$    
+
+[analgesics]                                    numeric                          2                 0.00 %                
+
+[analgesics\_opioid]                            numeric                          2                 0.00 %                
+
+[androgens]                                     numeric                          2                 0.00 %    $\times$    
+
+[anesthetics\_local]                            numeric                          2                 0.00 %                
+
+[anti\_anxiety\_agents]                         numeric                          2                 0.00 %    $\times$    
+
+[anti\_arrhythmia\_agents]                      numeric                          2                 0.00 %                
+
+[anti\_asthmatic\_agents]                       numeric                          2                 0.00 %                
+
+[anti\_bacterial\_agents]                       numeric                          2                 0.00 %                
+
+[anti\_infective\_agents\_local]                numeric                          2                 0.00 %                
+
+[anti\_inflammatory\_agents]                    numeric                          2                 0.00 %                
+
+[anti\_inflammatory\_agents\_non\_steroidal]    numeric                          2                 0.00 %                
+
+[anti\_ulcer\_agents]                           numeric                          2                 0.00 %                
+
+[anticholesteremic\_agents]                     numeric                          2                 0.00 %                
+
+[anticoagulants]                                numeric                          2                 0.00 %                
+
+[anticonvulsants]                               numeric                          2                 0.00 %                
+
+[antidepressive\_agents]                        numeric                          2                 0.00 %                
+
+[antidepressive\_agents\_tricyclic]             numeric                          2                 0.00 %    $\times$    
+
+[antidiarrheals]                                numeric                          2                 0.00 %                
+
+[antiemetics]                                   numeric                          2                 0.00 %                
+
+[antifibrinolytic\_agents]                      numeric                          2                 0.00 %                
+
+[antifungal\_agents]                            numeric                          2                 0.00 %    $\times$    
+
+[antihypertensive\_agents]                      numeric                          2                 0.00 %                
+
+[antimalarials]                                 numeric                          2                 0.00 %    $\times$    
+
+[antimetabolites]                               numeric                          2                 0.00 %                
+
+[antineoplastic\_agents\_hormonal]              numeric                          2                 0.00 %    $\times$    
+
+[antiparkinson\_agents]                         numeric                          2                 0.00 %                
+
+[antipruritics]                                 numeric                          2                 0.00 %                
+
+[antipsychotic\_agents]                         numeric                          2                 0.00 %                
+
+[antithyroid\_agents]                           numeric                          2                 0.00 %    $\times$    
+
+[antitubercular\_agents]                        numeric                          2                 0.00 %    $\times$    
+
+[antitussive\_agents]                           numeric                          2                 0.00 %                
+
+[antiviral\_agents]                             numeric                          2                 0.00 %                
+
+[benzodiazepines]                               numeric                          2                 0.00 %                
+
+[bicarbonate]                                   numeric                          2                 0.00 %                
+
+[bone\_density\_conservation\_agents]           numeric                          2                 0.00 %                
+
+[bronchodilator\_agents]                        numeric                          2                 0.00 %                
+
+[calcium\_regulating\_hormones\_and\_agents]    numeric                          2                 0.00 %                
+
+[carbonic\_anhydrase\_inhibitors]               numeric                          2                 0.00 %                
+
+[chelating\_agents]                             numeric                          2                 0.00 %                
+
+[cholagogues\_and\_choleretics]                 numeric                          2                 0.00 %    $\times$    
+
+[cholinesterase\_inhibitors]                    numeric                          2                 0.00 %                
+
+[contraceptive\_agents\_hormonal]               numeric                          2                 0.00 %    $\times$    
+
+[diuretics]                                     numeric                          2                 0.00 %                
+
+[diuretics\_osmotic]                            numeric                          2                 0.00 %    $\times$    
+
+[factor\_xa\_inhibitors]                        numeric                          2                 0.00 %                
+
+[fibrinolytic\_agents]                          numeric                          2                 0.00 %    $\times$    
+
+[gastrointestinal\_agents]                      numeric                          2                 0.00 %                
+
+[glucocorticoids]                               numeric                          2                 0.00 %                
+
+[gout\_suppressants]                            numeric                          2                 0.00 %                
+
+[hematologic\_agents]                           numeric                          2                 0.00 %    $\times$    
+
+[hemostatics]                                   numeric                          2                 0.00 %    $\times$    
+
+[hiv\_medication]                               numeric                          2                 0.00 %                
+
+[hypoglycemic\_agents]                          numeric                          2                 0.00 %                
+
+[immunologic\_factors]                          numeric                          2                 0.00 %    $\times$    
+
+[immunosuppressive\_agents]                     numeric                          2                 0.00 %                
+
+[laxatives]                                     numeric                          2                 0.00 %                
+
+[levothyroxine]                                 numeric                          2                 0.00 %                
+
+[miotics]                                       numeric                          2                 0.00 %    $\times$    
+
+[muscarinic\_antagonists]                       numeric                          2                 0.00 %                
+
+[muscle\_relaxants\_central]                    numeric                          2                 0.00 %    $\times$    
+
+[narcotic\_antagonists]                         numeric                          2                 0.00 %    $\times$    
+
+[neuromuscular\_blocking\_agents\_2]            numeric                          2                 0.00 %                
+
+[ophthalmic\_solutions]                         numeric                          2                 0.00 %                
+
+[parasympatholytics]                            numeric                          2                 0.00 %                
+
+[platelet\_aggregation\_inhibitors]             numeric                          2                 0.00 %                
+
+[progestins]                                    numeric                          2                 0.00 %    $\times$    
+
+[reverse\_transcriptase\_inhibitors]            numeric                          2                 0.00 %    $\times$    
+
+[sedation]                                      numeric                          2                 0.00 %                
+
+[serotonin\_5\_ht1\_receptor\_agonists]         numeric                          2                 0.00 %    $\times$    
+
+[serotonin\_uptake\_inhibitors]                 numeric                          2                 0.00 %                
+
+[sleep\_aids\_pharmaceutical]                   numeric                          2                 0.00 %                
+
+[smoking\_cessation\_agents]                    numeric                          2                 0.00 %                
+
+[vasodilator\_agents]                           numeric                          2                 0.00 %                
+
+[vasopressors]                                  numeric                          2                 0.00 %                
+
+[vitamin\_b\_complex]                           numeric                          2                 0.00 %                
+
+[vitamins]                                      numeric                          2                 0.00 %                
+
+[hemoglobin\_min]                               numeric                        103                 0.00 %    $\times$    
+
+[hemoglobin\_max]                               numeric                         97                 0.00 %    $\times$    
+
+[hemoglobin\_mean]                              numeric                        356                 0.00 %    $\times$    
+
+[plt\_min]                                      numeric                        313                 0.00 %    $\times$    
+
+[plt\_max]                                      numeric                        339                 0.00 %    $\times$    
+
+[plt\_mean]                                     numeric                        588                 0.00 %    $\times$    
+
+[wbc\_min]                                      numeric                        132                 0.00 %    $\times$    
+
+[wbc\_max]                                      numeric                        184                 0.00 %    $\times$    
+
+[wbc\_mean]                                     numeric                        398                 0.00 %    $\times$    
+
+[sodium\_min]                                   numeric                         38                 0.00 %    $\times$    
+
+[sodium\_max]                                   numeric                         36                 0.00 %    $\times$    
+
+[sodium\_mean]                                  numeric                        179                 0.00 %    $\times$    
+
+[potassium\_min]                                numeric                         32                 0.00 %    $\times$    
+
+[potassium\_max]                                numeric                         34                 0.00 %    $\times$    
+
+[potassium\_mean]                               numeric                        135                 0.00 %    $\times$    
+
+[creatinine\_min]                               numeric                        175                 0.00 %    $\times$    
+
+[creatinine\_max]                               numeric                        203                 0.00 %    $\times$    
+
+[creatinine\_mean]                              numeric                        435                 0.00 %    $\times$    
+
+[eos\_min]                                      numeric                         41                 0.00 %    $\times$    
+
+[eos\_max]                                      numeric                         51                 0.00 %    $\times$    
+
+[eos\_mean]                                     numeric                         45                 0.00 %    $\times$    
+
+[lymph\_min]                                    numeric                        204                 0.00 %    $\times$    
+
+[lymph\_max]                                    numeric                        231                 0.00 %    $\times$    
+
+[lymph\_mean]                                   numeric                        225                 0.00 %    $\times$    
+
+[neutrophil\_min]                               numeric                        428                 0.00 %    $\times$    
+
+[neutrophil\_max]                               numeric                        489                 0.00 %    $\times$    
+
+[neutrophil\_mean]                              numeric                        517                 0.00 %    $\times$    
+
+[mono\_min]                                     numeric                        124                 0.00 %    $\times$    
+
+[mono\_max]                                     numeric                        158                 0.00 %    $\times$    
+
+[mono\_mean]                                    numeric                        138                 0.00 %    $\times$    
+
+[baso\_min]                                     numeric                         14                 0.00 %                
+
+[baso\_max]                                     numeric                         25                 0.00 %    $\times$    
+
+[baso\_mean]                                    numeric                         19                 0.00 %    $\times$    
+
+[sbp\_min]                                      numeric                         93                 0.00 %    $\times$    
+
+[sbp\_max]                                      numeric                        117                 0.00 %    $\times$    
+
+[sbp\_mean]                                     numeric                        637                 0.00 %    $\times$    
+
+[dbp\_min]                                      numeric                         60                 0.00 %    $\times$    
+
+[dbp\_max]                                      numeric                         76                 0.00 %    $\times$    
+
+[dbp\_mean]                                     numeric                        555                 0.00 %    $\times$    
+
+[temp\_min]                                     numeric                         36                 0.00 %    $\times$    
+
+[temp\_max]                                     numeric                         51                 0.00 %    $\times$    
+
+[temp\_mean]                                    numeric                        225                 0.00 %    $\times$    
+
+[so2\_min]                                      numeric                         40                 0.00 %    $\times$    
+
+[so2\_max]                                      numeric                         11                 0.00 %    $\times$    
+
+[so2\_mean]                                     numeric                        451                 0.00 %    $\times$    
+
+[rr\_min]                                       numeric                         17                 0.00 %    $\times$    
+
+[rr\_max]                                       numeric                         27                 0.00 %    $\times$    
+
+[rr\_mean]                                      numeric                        302                 0.00 %    $\times$    
+
+[fio2\_min]                                     numeric                         39                 0.00 %    $\times$    
+
+[fio2\_max]                                     numeric                         36                 0.00 %                
+
+[fio2\_mean]                                    numeric                        257                 0.00 %                
+
+[mv]                                            numeric                          2                 0.00 %                
+
+[icu]                                           numeric                          2                 0.00 %                
+
+[levelofcare]                                   numeric                          2                 0.00 %                
+
+[wave]                                          numeric                          2                 0.00 %                
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+# Variable list
+## patient\_site\_uid
+
+\bminione
+
+----------------------------------------------
+Feature                                 Result
+------------------------- --------------------
+Variable type                          numeric
+
+Number of missing obs.                 0 (0 %)
+
+Number of unique values                    866
+
+Median                                 5336432
+
+1st and 3rd quartiles       830614.75; 5636957
+
+Min. and max.                     720; 5682684
+----------------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-1-patient-site-uid', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 500000, 1000000, 
+1500000, 2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 
+5000000, 5500000), xmax = c(500000, 1000000, 1500000, 2000000, 
+2500000, 3000000, 3500000, 4000000, 4500000, 5000000, 5500000, 
+6000000), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(120L, 
+142L, 65L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 156L, 383L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "patient_site_uid")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## female
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-2-female', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(455L, 411L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "female")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## male
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-3-male', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(411L, 455L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "male")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## patient\_age
+
+\bminione
+
+-------------------------------------
+Feature                        Result
+------------------------- -----------
+Variable type                 numeric
+
+Number of missing obs.        0 (0 %)
+
+Number of unique values            81
+
+Median                             72
+
+1st and 3rd quartiles       55.25; 84
+
+Min. and max.                 19; 103
+-------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-4-patient-age', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(10L, 20L, 30L, 40L, 
+50L, 60L, 70L, 80L, 90L, 100L), xmax = c(20L, 30L, 40L, 50L, 
+60L, 70L, 80L, 90L, 100L, 110L), ymin = c(0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0), ymax = c(3L, 25L, 65L, 73L, 89L, 154L, 172L, 194L, 
+88L, 3L)), class = "data.frame", row.names = c(NA, -10L)), vnam = "patient_age")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## death
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-5-death', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(751L, 115L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "death")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## neuromuscular\_blocking\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-6-neuromuscular-blocking-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(859L, 7L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "neuromuscular_blocking_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## x5\_alpha\_reductase\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-7-x5-alpha-reductase-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(821L, 45L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "x5_alpha_reductase_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## acetaminophene
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-8-acetaminophene', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(67L, 799L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "acetaminophene")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## adjuvants\_anesthesia
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-9-adjuvants-anesthesia', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(861L, 5L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "adjuvants_anesthesia")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## adrenergic\_alpha\_1\_receptor\_antagonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-10-adrenergic-alpha-1-receptor-antagonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(768L, 98L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "adrenergic_alpha_1_receptor_antagonists")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## adrenergic\_beta\_3\_receptor\_agonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-11-adrenergic-beta-3-receptor-agonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(861L, 5L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "adrenergic_beta_3_receptor_agonists")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## adrenergic\_beta\_antagonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-12-adrenergic-beta-antagonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(808L, 58L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "adrenergic_beta_antagonists")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## adrenergic\_uptake\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-13-adrenergic-uptake-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "adrenergic_uptake_inhibitors")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## alcohol\_deterrents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-14-alcohol-deterrents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "alcohol_deterrents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## analgesics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-15-analgesics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(792L, 74L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "analgesics")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## analgesics\_opioid
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-16-analgesics-opioid', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(510L, 356L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "analgesics_opioid")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## androgens
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-17-androgens', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "androgens")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## anesthetics\_local
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-18-anesthetics-local', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(846L, 20L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anesthetics_local")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_anxiety\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-19-anti-anxiety-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_anxiety_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## anti\_arrhythmia\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-20-anti-arrhythmia-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(769L, 97L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_arrhythmia_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_asthmatic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-21-anti-asthmatic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(855L, 11L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_asthmatic_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_bacterial\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-22-anti-bacterial-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(331L, 535L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_bacterial_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_infective\_agents\_local
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-23-anti-infective-agents-local', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(833L, 33L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_infective_agents_local")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_inflammatory\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-24-anti-inflammatory-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(844L, 22L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_inflammatory_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_inflammatory\_agents\_non\_steroidal
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-25-anti-inflammatory-agents-non-steroidal', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(831L, 35L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_inflammatory_agents_non_steroidal")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anti\_ulcer\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-26-anti-ulcer-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(435L, 431L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anti_ulcer_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anticholesteremic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-27-anticholesteremic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(600L, 266L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anticholesteremic_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anticoagulants
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-28-anticoagulants', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(184L, 682L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anticoagulants")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## anticonvulsants
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-29-anticonvulsants', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(813L, 53L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "anticonvulsants")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antidepressive\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-30-antidepressive-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(740L, 126L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antidepressive_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antidepressive\_agents\_tricyclic
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-31-antidepressive-agents-tricyclic', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(863L, 3L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antidepressive_agents_tricyclic")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antidiarrheals
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-32-antidiarrheals', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(851L, 15L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antidiarrheals")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antiemetics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-33-antiemetics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(626L, 240L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antiemetics")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antifibrinolytic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-34-antifibrinolytic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(860L, 6L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antifibrinolytic_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antifungal\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-35-antifungal-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(862L, 4L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antifungal_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antihypertensive\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-36-antihypertensive-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(496L, 370L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antihypertensive_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antimalarials
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-37-antimalarials', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antimalarials")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antimetabolites
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-38-antimetabolites', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(828L, 38L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antimetabolites")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antineoplastic\_agents\_hormonal
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-39-antineoplastic-agents-hormonal', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(862L, 4L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antineoplastic_agents_hormonal")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antiparkinson\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-40-antiparkinson-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(825L, 41L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antiparkinson_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antipruritics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-41-antipruritics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(856L, 10L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antipruritics")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antipsychotic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-42-antipsychotic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(630L, 236L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antipsychotic_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antithyroid\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-43-antithyroid-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antithyroid_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antitubercular\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-44-antitubercular-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antitubercular_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## antitussive\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-45-antitussive-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(854L, 12L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antitussive_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## antiviral\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-46-antiviral-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(850L, 16L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "antiviral_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## benzodiazepines
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-47-benzodiazepines', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(479L, 387L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "benzodiazepines")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## bicarbonate
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-48-bicarbonate', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(837L, 29L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "bicarbonate")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## bone\_density\_conservation\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-49-bone-density-conservation-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(810L, 56L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "bone_density_conservation_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## bronchodilator\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-50-bronchodilator-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(610L, 256L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "bronchodilator_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## calcium\_regulating\_hormones\_and\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-51-calcium-regulating-hormones-and-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(607L, 259L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "calcium_regulating_hormones_and_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## carbonic\_anhydrase\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-52-carbonic-anhydrase-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(854L, 12L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "carbonic_anhydrase_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## chelating\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-53-chelating-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(849L, 17L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "chelating_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## cholagogues\_and\_choleretics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-54-cholagogues-and-choleretics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(863L, 3L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "cholagogues_and_choleretics")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## cholinesterase\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-55-cholinesterase-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(826L, 40L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "cholinesterase_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## contraceptive\_agents\_hormonal
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-56-contraceptive-agents-hormonal', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "contraceptive_agents_hormonal")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## diuretics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-57-diuretics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(663L, 203L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "diuretics")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## diuretics\_osmotic
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-58-diuretics-osmotic', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "diuretics_osmotic")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## factor\_xa\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-59-factor-xa-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(773L, 93L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "factor_xa_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## fibrinolytic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-60-fibrinolytic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "fibrinolytic_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## gastrointestinal\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-61-gastrointestinal-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(859L, 7L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "gastrointestinal_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## glucocorticoids
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-62-glucocorticoids', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(613L, 253L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "glucocorticoids")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## gout\_suppressants
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-63-gout-suppressants', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(857L, 9L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "gout_suppressants")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## hematologic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-64-hematologic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(862L, 4L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "hematologic_agents")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## hemostatics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-65-hemostatics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(863L, 3L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "hemostatics")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## hiv\_medication
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-66-hiv-medication', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(855L, 11L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "hiv_medication")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## hypoglycemic\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-67-hypoglycemic-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(609L, 257L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "hypoglycemic_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## immunologic\_factors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-68-immunologic-factors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "immunologic_factors")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## immunosuppressive\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-69-immunosuppressive-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(841L, 25L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "immunosuppressive_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## laxatives
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-70-laxatives', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(309L, 557L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "laxatives")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## levothyroxine
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-71-levothyroxine', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(712L, 154L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "levothyroxine")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## miotics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-72-miotics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "miotics")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## muscarinic\_antagonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-73-muscarinic-antagonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(860L, 6L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "muscarinic_antagonists")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## muscle\_relaxants\_central
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-74-muscle-relaxants-central', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "muscle_relaxants_central")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## narcotic\_antagonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-75-narcotic-antagonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "narcotic_antagonists")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## neuromuscular\_blocking\_agents\_2
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-76-neuromuscular-blocking-agents-2', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(839L, 27L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "neuromuscular_blocking_agents_2")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## ophthalmic\_solutions
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-77-ophthalmic-solutions', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(837L, 29L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "ophthalmic_solutions")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## parasympatholytics
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-78-parasympatholytics', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(859L, 7L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "parasympatholytics")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## platelet\_aggregation\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-79-platelet-aggregation-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(644L, 222L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "platelet_aggregation_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## progestins
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-80-progestins', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "progestins")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## reverse\_transcriptase\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-81-reverse-transcriptase-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(865L, 1L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "reverse_transcriptase_inhibitors")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## sedation
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-82-sedation', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(803L, 63L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "sedation")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## serotonin\_5\_ht1\_receptor\_agonists
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-83-serotonin-5-ht1-receptor-agonists', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(864L, 2L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "serotonin_5_ht1_receptor_agonists")
+```
+
+\emini
+
+
+- Note that the following levels have at most five observations: \"1\". 
+
+
+
+\fullline
+
+## serotonin\_uptake\_inhibitors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-84-serotonin-uptake-inhibitors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(802L, 64L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "serotonin_uptake_inhibitors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## sleep\_aids\_pharmaceutical
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-85-sleep-aids-pharmaceutical', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(846L, 20L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "sleep_aids_pharmaceutical")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## smoking\_cessation\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-86-smoking-cessation-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(820L, 46L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "smoking_cessation_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## vasodilator\_agents
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-87-vasodilator-agents', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(815L, 51L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "vasodilator_agents")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## vasopressors
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-88-vasopressors', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(747L, 119L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "vasopressors")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## vitamin\_b\_complex
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-89-vitamin-b-complex', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(762L, 104L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "vitamin_b_complex")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## vitamins
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-90-vitamins', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(463L, 403L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "vitamins")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## hemoglobin\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          103
+
+Median                           119
+
+1st and 3rd quartiles       104; 130
+
+Min. and max.                41; 173
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-91-hemoglobin-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(40L, 50L, 60L, 70L, 
+80L, 90L, 100L, 110L, 120L, 130L, 140L, 150L, 160L, 170L), xmax = c(50L, 
+60L, 70L, 80L, 90L, 100L, 110L, 120L, 130L, 140L, 150L, 160L, 
+170L, 180L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0), ymax = c(1L, 3L, 18L, 29L, 44L, 80L, 123L, 183L, 182L, 129L, 
+54L, 13L, 6L, 1L)), class = "data.frame", row.names = c(NA, -14L
+)), vnam = "hemoglobin_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"41\", \"153\", \"154\", \"155\", \"156\", \"157\", \"158\", \"159\", \"161\", \"162\" (4 additional values omitted). 
+
+
+
+\fullline
+
+## hemoglobin\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           97
+
+Median                           127
+
+1st and 3rd quartiles       113; 138
+
+Min. and max.                71; 178
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-92-hemoglobin-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(70L, 80L, 90L, 100L, 
+110L, 120L, 130L, 140L, 150L, 160L, 170L), xmax = c(80L, 90L, 
+100L, 110L, 120L, 130L, 140L, 150L, 160L, 170L, 180L), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(11L, 32L, 60L, 87L, 124L, 
+193L, 190L, 95L, 51L, 14L, 9L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "hemoglobin_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"163\", \"164\", \"165\", \"167\", \"169\", \"170\", \"171\", \"172\", \"173\", \"176\" (1 additional values omitted). 
+
+
+
+\fullline
+
+## hemoglobin\_mean
+
+\bminione
+
+------------------------------------------
+Feature                             Result
+------------------------- ----------------
+Variable type                      numeric
+
+Number of missing obs.             0 (0 %)
+
+Number of unique values                356
+
+Median                                 122
+
+1st and 3rd quartiles       108.21; 133.64
+
+Min. and max.                   61.71; 173
+------------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-93-hemoglobin-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(60L, 70L, 80L, 90L, 
+100L, 110L, 120L, 130L, 140L, 150L, 160L, 170L), xmax = c(70L, 
+80L, 90L, 100L, 110L, 120L, 130L, 140L, 150L, 160L, 170L, 180L
+), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(2L, 
+26L, 40L, 66L, 105L, 161L, 192L, 162L, 76L, 26L, 7L, 3L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "hemoglobin_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"161\", \"161.33\", \"162\", \"162.5\", \"162.75\", \"163\", \"168.33\", \"170.33\", \"171.5\", \"173\". 
+
+
+
+\fullline
+
+## plt\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          313
+
+Median                           196
+
+1st and 3rd quartiles       145; 261
+
+Min. and max.                21; 941
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-94-plt-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900), xmax = c(100, 200, 300, 400, 500, 600, 
+700, 800, 900, 1000), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(70L, 379L, 293L, 93L, 25L, 3L, 2L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "plt_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"21\", \"24\", \"26\", \"27\", \"32\", \"34\", \"35\", \"36\", \"37\", \"526\" (3 additional values omitted). 
+
+
+
+\fullline
+
+## plt\_max
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             339
+
+Median                              227
+
+1st and 3rd quartiles       170; 298.75
+
+Min. and max.                  24; 1052
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-95-plt-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900, 1000), xmax = c(100, 200, 300, 400, 
+500, 600, 700, 800, 900, 1000, 1100), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0), ymax = c(33L, 307L, 313L, 137L, 57L, 13L, 
+4L, 1L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "plt_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"24\", \"26\", \"37\", \"44\", \"50\", \"58\", \"61\", \"62\", \"63\", \"608\" (3 additional values omitted). 
+
+
+
+\fullline
+
+## plt\_mean
+
+\bminione
+
+-----------------------------------------
+Feature                            Result
+------------------------- ---------------
+Variable type                     numeric
+
+Number of missing obs.            0 (0 %)
+
+Number of unique values               588
+
+Median                                208
+
+1st and 3rd quartiles         158; 281.88
+
+Min. and max.               23.86; 989.75
+-----------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-96-plt-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900), xmax = c(100, 200, 300, 400, 500, 600, 
+700, 800, 900, 1000), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(49L, 343L, 311L, 120L, 34L, 5L, 2L, 0L, 0L, 2L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "plt_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"23.86\", \"24\", \"33.75\", \"40.25\", \"43.5\", \"44.6\", \"47.33\", \"47.75\", \"48.4\", \"50\" (11 additional values omitted). 
+
+
+
+\fullline
+
+## wbc\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          132
+
+Median                           5.5
+
+1st and 3rd quartiles       4.1; 7.5
+
+Min. and max.                0; 46.1
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-97-wbc-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 5, 10, 15, 20, 25, 
+30, 35, 40, 45), xmax = c(5, 10, 15, 20, 25, 30, 35, 40, 45, 
+50), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(360L, 431L, 
+59L, 10L, 4L, 1L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "wbc_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0\", \"0.7\", \"1\", \"1.2\", \"1.3\", \"1.5\", \"1.6\", \"1.8\", \"1.9\", \"17.8\" (6 additional values omitted). 
+
+
+
+\fullline
+
+## wbc\_max
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values            184
+
+Median                             7.4
+
+1st and 3rd quartiles       5.4; 10.47
+
+Min. and max.                1.3; 1000
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-98-wbc-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900), xmax = c(100, 200, 300, 400, 500, 600, 
+700, 800, 900, 1000), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(863L, 0L, 2L, 0L, 0L, 0L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "wbc_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"1.3\", \"1.6\", \"1.7\", \"1.8\", \"2.2\", \"2.5\", \"2.6\", \"28.8\", \"29.7\", \"30\" (6 additional values omitted). 
+
+
+
+\fullline
+
+## wbc\_mean
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             398
+
+Median                             6.53
+
+1st and 3rd quartiles        4.86; 8.95
+
+Min. and max.               1.3; 207.14
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-99-wbc-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 20, 40, 60, 80, 100, 
+120, 140, 160, 180, 200), xmax = c(20, 40, 60, 80, 100, 120, 
+140, 160, 180, 200, 220), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0), ymax = c(855L, 8L, 1L, 0L, 1L, 0L, 0L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "wbc_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"1.3\", \"1.43\", \"1.6\", \"1.7\", \"1.97\", \"2.1\", \"2.2\", \"22.2\", \"22.55\", \"23.3\" (6 additional values omitted). 
+
+
+
+\fullline
+
+## sodium\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           38
+
+Median                           138
+
+1st and 3rd quartiles       135; 140
+
+Min. and max.               114; 157
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-100-sodium-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(110L, 115L, 120L, 125L, 
+130L, 135L, 140L, 145L, 150L, 155L), xmax = c(115L, 120L, 125L, 
+130L, 135L, 140L, 145L, 150L, 155L, 160L), ymin = c(0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0), ymax = c(1L, 2L, 9L, 34L, 208L, 413L, 171L, 
+18L, 5L, 5L)), class = "data.frame", row.names = c(NA, -10L)), 
+    vnam = "sodium_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"114\", \"117\", \"120\", \"121\", \"122\", \"123\", \"124\", \"125\", \"126\", \"127\" (8 additional values omitted). 
+
+
+
+\fullline
+
+## sodium\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           36
+
+Median                           140
+
+1st and 3rd quartiles       138; 143
+
+Min. and max.               127; 168
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-101-sodium-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(125L, 130L, 135L, 140L, 
+145L, 150L, 155L, 160L, 165L), xmax = c(130L, 135L, 140L, 145L, 
+150L, 155L, 160L, 165L, 170L), ymin = c(0, 0, 0, 0, 0, 0, 0, 
+0, 0), ymax = c(13L, 58L, 381L, 318L, 71L, 9L, 6L, 9L, 1L)), class = "data.frame", row.names = c(NA, 
+-9L)), vnam = "sodium_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"127\", \"128\", \"129\", \"130\", \"131\", \"132\", \"133\", \"134\", \"158\", \"159\" (4 additional values omitted). 
+
+
+
+\fullline
+
+## sodium\_mean
+
+\bminione
+
+------------------------------------------
+Feature                             Result
+------------------------- ----------------
+Variable type                      numeric
+
+Number of missing obs.             0 (0 %)
+
+Number of unique values                179
+
+Median                                 139
+
+1st and 3rd quartiles        136.67; 141.5
+
+Min. and max.               120.13; 160.86
+------------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-102-sodium-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(120L, 125L, 130L, 135L, 
+140L, 145L, 150L, 155L, 160L), xmax = c(125L, 130L, 135L, 140L, 
+145L, 150L, 155L, 160L, 165L), ymin = c(0, 0, 0, 0, 0, 0, 0, 
+0, 0), ymax = c(2L, 18L, 92L, 424L, 279L, 37L, 4L, 7L, 3L)), class = "data.frame", row.names = c(NA, 
+-9L)), vnam = "sodium_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"120.13\", \"124.75\", \"125.67\", \"125.75\", \"125.86\", \"126.25\", \"126.5\", \"127\", \"127.56\", \"128\" (13 additional values omitted). 
+
+
+
+\fullline
+
+## potassium\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           32
+
+Median                           3.7
+
+1st and 3rd quartiles       3.4; 4.1
+
+Min. and max.               2.4; 5.6
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-103-potassium-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(2, 2.5, 3, 3.5, 4, 4.5, 
+5, 5.5), xmax = c(2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0), ymax = c(2L, 58L, 258L, 330L, 178L, 32L, 
+7L, 1L)), class = "data.frame", row.names = c(NA, -8L)), vnam = "potassium_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"5.2\", \"5.3\", \"5.4\", \"5.6\". 
+
+
+
+\fullline
+
+## potassium\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           34
+
+Median                           4.1
+
+1st and 3rd quartiles       3.8; 4.5
+
+Min. and max.                 3; 8.2
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-104-potassium-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(3, 3.5, 4, 4.5, 5, 5.5, 
+6, 6.5, 7, 7.5, 8), xmax = c(3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 
+7.5, 8, 8.5), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(74L, 
+324L, 292L, 130L, 32L, 5L, 7L, 1L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "potassium_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"3\", \"3.2\", \"6.2\", \"6.3\", \"6.4\", \"6.9\", \"8.2\". 
+
+
+
+\fullline
+
+## potassium\_mean
+
+\bminione
+
+-------------------------------------
+Feature                        Result
+------------------------- -----------
+Variable type                 numeric
+
+Number of missing obs.        0 (0 %)
+
+Number of unique values           135
+
+Median                            3.9
+
+1st and 3rd quartiles       3.65; 4.2
+
+Min. and max.                 3; 5.81
+-------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-105-potassium-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(3, 3.2, 3.4, 3.6, 3.8, 
+4, 4.2, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8), xmax = c(3.2, 
+3.4, 3.6, 3.8, 4, 4.2, 4.4, 4.6, 4.8, 5, 5.2, 5.4, 5.6, 5.8, 
+6), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(16L, 
+74L, 102L, 169L, 166L, 128L, 99L, 54L, 31L, 13L, 7L, 2L, 3L, 
+1L, 1L)), class = "data.frame", row.names = c(NA, -15L)), vnam = "potassium_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"3\", \"3.05\", \"5.35\", \"5.47\", \"5.6\", \"5.7\", \"5.81\". 
+
+
+
+\fullline
+
+## creatinine\_min
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          175
+
+Median                            68
+
+1st and 3rd quartiles         54; 93
+
+Min. and max.               20; 1049
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-106-creatinine-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900, 1000), xmax = c(100, 200, 300, 400, 
+500, 600, 700, 800, 900, 1000, 1100), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0), ymax = c(697L, 113L, 20L, 15L, 9L, 4L, 1L, 
+3L, 2L, 0L, 2L)), class = "data.frame", row.names = c(NA, -11L
+)), vnam = "creatinine_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"20\", \"23\", \"24\", \"25\", \"26\", \"27\", \"29\", \"31\", \"32\", \"33\" (42 additional values omitted). 
+
+
+
+\fullline
+
+## creatinine\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          203
+
+Median                            79
+
+1st and 3rd quartiles        62; 110
+
+Min. and max.               25; 2094
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-107-creatinine-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 200, 400, 600, 800, 
+1000, 1200, 1400, 1600, 1800, 2000), xmax = c(200, 400, 600, 
+800, 1000, 1200, 1400, 1600, 1800, 2000, 2200), ymin = c(0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(784L, 45L, 16L, 6L, 8L, 
+5L, 0L, 1L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "creatinine_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"25\", \"27\", \"29\", \"31\", \"32\", \"34\", \"35\", \"37\", \"38\", \"39\" (47 additional values omitted). 
+
+
+
+\fullline
+
+## creatinine\_mean
+
+\bminione
+
+-----------------------------------------
+Feature                            Result
+------------------------- ---------------
+Variable type                     numeric
+
+Number of missing obs.            0 (0 %)
+
+Number of unique values               435
+
+Median                              73.67
+
+1st and 3rd quartiles       58.37; 101.25
+
+Min. and max.                22.5; 1209.7
+-----------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-108-creatinine-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 100, 200, 300, 400, 
+500, 600, 700, 800, 900, 1000, 1100, 1200), xmax = c(100, 200, 
+300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(642L, 155L, 20L, 
+17L, 10L, 6L, 4L, 5L, 2L, 1L, 2L, 1L, 1L)), class = "data.frame", row.names = c(NA, 
+-13L)), vnam = "creatinine_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"22.5\", \"26.33\", \"28.75\", \"29\", \"29.5\", \"31\", \"31.75\", \"35\", \"35.67\", \"36\" (62 additional values omitted). 
+
+
+
+\fullline
+
+## eos\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          41
+
+Median                            0
+
+1st and 3rd quartiles       0; 0.03
+
+Min. and max.                0; 1.5
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-109-eos-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.1, 0.2, 0.3, 0.4, 
+0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4), xmax = c(0.1, 
+0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 
+1.5), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(775L, 49L, 22L, 9L, 4L, 2L, 0L, 4L, 0L, 0L, 0L, 
+    0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-15L)), vnam = "eos_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"1.5\". 
+
+
+
+\fullline
+
+## eos\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          51
+
+Median                         0.01
+
+1st and 3rd quartiles        0; 0.1
+
+Min. and max.               0; 2.22
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-110-eos-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.2, 0.4, 0.6, 0.8, 
+1, 1.2, 1.4, 1.6, 1.8, 2, 2.2), xmax = c(0.2, 0.4, 0.6, 0.8, 
+1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0), ymax = c(781L, 62L, 13L, 6L, 0L, 1L, 2L, 
+0L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "eos_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"2.22\". 
+
+
+
+\fullline
+
+## eos\_mean
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          45
+
+Median                         0.01
+
+1st and 3rd quartiles       0; 0.07
+
+Min. and max.               0; 1.85
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-111-eos-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.2, 0.4, 0.6, 0.8, 
+1, 1.2, 1.4, 1.6, 1.8), xmax = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 
+1.4, 1.6, 1.8, 2), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(808L, 
+41L, 10L, 5L, 1L, 0L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "eos_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"1.85\". 
+
+
+
+\fullline
+
+## lymph\_min
+
+\bminione
+
+-------------------------------------
+Feature                        Result
+------------------------- -----------
+Variable type                 numeric
+
+Number of missing obs.        0 (0 %)
+
+Number of unique values           204
+
+Median                            0.8
+
+1st and 3rd quartiles       0.53; 1.2
+
+Min. and max.                 0; 16.9
+-------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-112-lymph-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 2, 4, 6, 8, 10, 12, 
+14, 16), xmax = c(2, 4, 6, 8, 10, 12, 14, 16, 18), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0), ymax = c(812L, 48L, 3L, 1L, 0L, 0L, 
+1L, 0L, 1L)), class = "data.frame", row.names = c(NA, -9L)), 
+    vnam = "lymph_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0\", \"0.08\", \"0.1\", \"3.19\", \"3.66\", \"3.69\", \"5.85\", \"6\", \"7.3\", \"12.8\" (1 additional values omitted). 
+
+
+
+\fullline
+
+## lymph\_max
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values            231
+
+Median                            1.17
+
+1st and 3rd quartiles       0.85; 1.69
+
+Min. and max.               0.16; 18.6
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-113-lymph-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 2, 4, 6, 8, 10, 12, 
+14, 16, 18), xmax = c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(750L, 106L, 3L, 5L, 0L, 
+0L, 0L, 0L, 1L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "lymph_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.16\", \"0.18\", \"0.24\", \"0.25\", \"0.28\", \"0.29\", \"0.3\", \"0.33\", \"0.34\", \"4.28\" (7 additional values omitted). 
+
+
+
+\fullline
+
+## lymph\_mean
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             225
+
+Median                                1
+
+1st and 3rd quartiles         0.71; 1.4
+
+Min. and max.               0.11; 17.75
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-114-lymph-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 2, 4, 6, 8, 10, 12, 
+14, 16), xmax = c(2, 4, 6, 8, 10, 12, 14, 16, 18), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0), ymax = c(788L, 71L, 3L, 2L, 0L, 0L, 
+0L, 1L, 1L)), class = "data.frame", row.names = c(NA, -9L)), 
+    vnam = "lymph_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.11\", \"0.15\", \"0.16\", \"0.18\", \"0.19\", \"0.24\", \"0.25\", \"0.27\", \"0.28\", \"0.29\" (10 additional values omitted). 
+
+
+
+\fullline
+
+## neutrophil\_min
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             428
+
+Median                             3.78
+
+1st and 3rd quartiles          2.5; 5.7
+
+Min. and max.               0.09; 24.69
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-115-neutrophil-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 2, 4, 6, 8, 10, 12, 
+14, 16, 18, 20, 22, 24), xmax = c(2, 4, 6, 8, 10, 12, 14, 16, 
+18, 20, 22, 24, 26), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0), ymax = c(125L, 370L, 182L, 106L, 41L, 21L, 14L, 3L, 0L, 
+2L, 0L, 1L, 1L)), class = "data.frame", row.names = c(NA, -13L
+)), vnam = "neutrophil_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.09\", \"0.17\", \"0.35\", \"0.37\", \"0.39\", \"0.5\", \"0.59\", \"15.36\", \"15.4\", \"19.16\" (3 additional values omitted). 
+
+
+
+\fullline
+
+## neutrophil\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          489
+
+Median                           5.3
+
+1st and 3rd quartiles       3.5; 8.3
+
+Min. and max.               0.64; 83
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-116-neutrophil-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 10, 20, 30, 40, 50, 
+60, 70, 80), xmax = c(10, 20, 30, 40, 50, 60, 70, 80, 90), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0), ymax = c(718L, 138L, 7L, 2L, 0L, 0L, 
+0L, 0L, 1L)), class = "data.frame", row.names = c(NA, -9L)), 
+    vnam = "neutrophil_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.64\", \"0.68\", \"0.94\", \"0.95\", \"0.96\", \"1.08\", \"1.1\", \"1.15\", \"1.16\", \"1.19\" (4 additional values omitted). 
+
+
+
+\fullline
+
+## neutrophil\_mean
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             517
+
+Median                             4.56
+
+1st and 3rd quartiles        3.14; 6.79
+
+Min. and max.               0.47; 28.48
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-117-neutrophil-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 2, 4, 6, 8, 10, 12, 
+14, 16, 18, 20, 22, 24, 26, 28), xmax = c(2, 4, 6, 8, 10, 12, 
+14, 16, 18, 20, 22, 24, 26, 28, 30), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(62L, 304L, 222L, 122L, 
+74L, 39L, 16L, 16L, 5L, 2L, 0L, 1L, 1L, 1L, 1L)), class = "data.frame", row.names = c(NA, 
+-15L)), vnam = "neutrophil_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.47\", \"0.52\", \"0.61\", \"0.62\", \"0.94\", \"0.96\", \"0.98\", \"1.08\", \"1.1\", \"1.11\" (10 additional values omitted). 
+
+
+
+\fullline
+
+## mono\_min
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values            124
+
+Median                            0.41
+
+1st and 3rd quartiles       0.29; 0.61
+
+Min. and max.                  0; 2.02
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-118-mono-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.2, 0.4, 0.6, 0.8, 
+1, 1.2, 1.4, 1.6, 1.8, 2), xmax = c(0.2, 0.4, 0.6, 0.8, 1, 1.2, 
+1.4, 1.6, 1.8, 2, 2.2), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0), ymax = c(148L, 280L, 213L, 130L, 48L, 27L, 13L, 5L, 1L, 0L, 
+1L)), class = "data.frame", row.names = c(NA, -11L)), vnam = "mono_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0\", \"0.03\", \"0.04\", \"0.05\", \"0.06\", \"0.07\", \"0.08\", \"0.09\", \"0.1\", \"0.11\" (3 additional values omitted). 
+
+
+
+\fullline
+
+## mono\_max
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values            158
+
+Median                             0.6
+
+1st and 3rd quartiles       0.42; 0.87
+
+Min. and max.                   0; 9.5
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-119-mono-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 1, 2, 3, 4, 5, 6, 
+7, 8, 9), xmax = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(726L, 129L, 8L, 2L, 0L, 
+0L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "mono_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0\", \"0.06\", \"0.08\", \"0.1\", \"0.11\", \"0.12\", \"0.13\", \"0.14\", \"2.29\", \"2.49\" (5 additional values omitted). 
+
+
+
+\fullline
+
+## mono\_mean
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values            138
+
+Median                            0.52
+
+1st and 3rd quartiles       0.38; 0.72
+
+Min. and max.                  0; 4.69
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-120-mono-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.5, 1, 1.5, 2, 2.5, 
+3, 3.5, 4, 4.5), xmax = c(0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 
+5), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(425L, 363L, 
+68L, 5L, 3L, 1L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "mono_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0\", \"0.06\", \"0.08\", \"0.09\", \"0.1\", \"0.11\", \"0.12\", \"0.13\", \"0.14\", \"0.15\" (6 additional values omitted). 
+
+
+
+\fullline
+
+## baso\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          14
+
+Median                            0
+
+1st and 3rd quartiles       0; 0.01
+
+Min. and max.               0; 0.16
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-121-baso-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.02, 0.04, 0.06, 
+0.08, 0.1, 0.12, 0.14), xmax = c(0.02, 0.04, 0.06, 0.08, 0.1, 
+0.12, 0.14, 0.16), ymin = c(0, 0, 0, 0, 0, 0, 0, 0), ymax = c(804L, 
+46L, 5L, 3L, 5L, 1L, 0L, 2L)), class = "data.frame", row.names = c(NA, 
+-8L)), vnam = "baso_min")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## baso\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          25
+
+Median                         0.01
+
+1st and 3rd quartiles       0; 0.02
+
+Min. and max.                  0; 1
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-122-baso-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.1, 0.2, 0.3, 0.4, 
+0.5, 0.6, 0.7, 0.8, 0.9), xmax = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 
+0.7, 0.8, 0.9, 1), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(849L, 
+9L, 3L, 1L, 1L, 2L, 0L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "baso_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.11\", \"0.12\", \"0.14\", \"0.15\", \"0.16\", \"0.19\", \"0.23\", \"0.25\", \"0.27\", \"0.37\" (4 additional values omitted). 
+
+
+
+\fullline
+
+## baso\_mean
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          19
+
+Median                         0.01
+
+1st and 3rd quartiles       0; 0.02
+
+Min. and max.               0; 0.33
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-123-baso-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 0.05, 0.1, 0.15, 
+0.2, 0.25, 0.3), xmax = c(0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35
+), ymin = c(0, 0, 0, 0, 0, 0, 0), ymax = c(838L, 19L, 3L, 1L, 
+2L, 1L, 2L)), class = "data.frame", row.names = c(NA, -7L)), 
+    vnam = "baso_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"0.06\", \"0.07\", \"0.08\", \"0.09\", \"0.1\", \"0.11\", \"0.13\", \"0.16\", \"0.21\", \"0.25\" (3 additional values omitted). 
+
+
+
+\fullline
+
+## sbp\_min
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values              93
+
+Median                              110
+
+1st and 3rd quartiles       100.25; 121
+
+Min. and max.                   11; 173
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-124-sbp-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 20, 40, 60, 80, 100, 
+120, 140, 160), xmax = c(20, 40, 60, 80, 100, 120, 140, 160, 
+180), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(8L, 0L, 4L, 
+30L, 175L, 430L, 177L, 36L, 6L)), class = "data.frame", row.names = c(NA, 
+-9L)), vnam = "sbp_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"11\", \"12\", \"16\", \"19\", \"54\", \"60\", \"62\", \"65\", \"66\", \"69\" (10 additional values omitted). 
+
+
+
+\fullline
+
+## sbp\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values          117
+
+Median                           148
+
+1st and 3rd quartiles       133; 164
+
+Min. and max.                96; 224
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-125-sbp-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(90L, 100L, 110L, 120L, 
+130L, 140L, 150L, 160L, 170L, 180L, 190L, 200L, 210L, 220L), 
+    xmax = c(100L, 110L, 120L, 130L, 140L, 150L, 160L, 170L, 
+    180L, 190L, 200L, 210L, 220L, 230L), ymin = c(0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(4L, 15L, 47L, 119L, 
+    151L, 138L, 134L, 109L, 73L, 37L, 14L, 15L, 6L, 4L)), class = "data.frame", row.names = c(NA, 
+-14L)), vnam = "sbp_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"219\", \"220\", \"221\", \"223\", \"224\". 
+
+
+
+\fullline
+
+## sbp\_mean
+
+\bminione
+
+------------------------------------------
+Feature                             Result
+------------------------- ----------------
+Variable type                      numeric
+
+Number of missing obs.             0 (0 %)
+
+Number of unique values                637
+
+Median                                 127
+
+1st and 3rd quartiles       117.69; 140.21
+
+Min. and max.                86.83; 188.27
+------------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-126-sbp-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(80L, 90L, 100L, 110L, 
+120L, 130L, 140L, 150L, 160L, 170L, 180L), xmax = c(90L, 100L, 
+110L, 120L, 130L, 140L, 150L, 160L, 170L, 180L, 190L), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(5L, 17L, 71L, 172L, 222L, 
+161L, 103L, 80L, 19L, 14L, 2L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "sbp_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"86.83\", \"87.88\", \"89\", \"89.13\", \"92.4\", \"95.17\", \"96\", \"96.2\", \"96.63\", \"97.8\" (14 additional values omitted). 
+
+
+
+\fullline
+
+## dbp\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          60
+
+Median                           60
+
+1st and 3rd quartiles        54; 67
+
+Min. and max.                 6; 93
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-127-dbp-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(0, 10, 20, 30, 40, 50, 
+60, 70, 80, 90), xmax = c(10, 20, 30, 40, 50, 60, 70, 80, 90, 
+100), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(1L, 0L, 
+4L, 27L, 108L, 308L, 288L, 112L, 16L, 2L)), class = "data.frame", row.names = c(NA, 
+-10L)), vnam = "dbp_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"6\", \"24\", \"28\", \"30\", \"34\", \"87\", \"89\", \"91\", \"93\". 
+
+
+
+\fullline
+
+## dbp\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          76
+
+Median                           83
+
+1st and 3rd quartiles        77; 90
+
+Min. and max.               55; 811
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-128-dbp-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(50L, 100L, 150L, 200L, 
+250L, 300L, 350L, 400L, 450L, 500L, 550L, 600L, 650L, 700L, 750L, 
+800L), xmax = c(100L, 150L, 200L, 250L, 300L, 350L, 400L, 450L, 
+500L, 550L, 600L, 650L, 700L, 750L, 800L, 850L), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(802L, 
+57L, 1L, 0L, 0L, 0L, 0L, 0L, 0L, 1L, 1L, 1L, 1L, 0L, 1L, 1L)), class = "data.frame", row.names = c(NA, 
+-16L)), vnam = "dbp_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"55\", \"56\", \"59\", \"60\", \"61\", \"62\", \"63\", \"116\", \"117\", \"118\" (15 additional values omitted). 
+
+
+
+\fullline
+
+## dbp\_mean
+
+\bminione
+
+-----------------------------------------
+Feature                            Result
+------------------------- ---------------
+Variable type                     numeric
+
+Number of missing obs.            0 (0 %)
+
+Number of unique values               555
+
+Median                              71.67
+
+1st and 3rd quartiles           66; 77.14
+
+Min. and max.               48.19; 128.13
+-----------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-129-dbp-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(40L, 50L, 60L, 70L, 
+80L, 90L, 100L, 110L, 120L), xmax = c(50L, 60L, 70L, 80L, 90L, 
+100L, 110L, 120L, 130L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(2L, 60L, 307L, 361L, 118L, 11L, 5L, 1L, 1L)), class = "data.frame", row.names = c(NA, 
+-9L)), vnam = "dbp_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"48.19\", \"96.1\", \"99.1\", \"99.2\", \"101.27\", \"101.75\", \"103.67\", \"103.88\", \"110\", \"113.05\" (1 additional values omitted). 
+
+
+
+\fullline
+
+## temp\_min
+
+\bminione
+
+--------------------------------------
+Feature                         Result
+------------------------- ------------
+Variable type                  numeric
+
+Number of missing obs.         0 (0 %)
+
+Number of unique values             36
+
+Median                            36.3
+
+1st and 3rd quartiles       35.9; 36.6
+
+Min. and max.                 34; 39.3
+--------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-130-temp-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(34, 34.5, 35, 35.5, 
+36, 36.5, 37, 37.5, 38, 38.5, 39), xmax = c(34.5, 35, 35.5, 36, 
+36.5, 37, 37.5, 38, 38.5, 39, 39.5), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0), ymax = c(15L, 40L, 71L, 195L, 312L, 217L, 
+13L, 2L, 0L, 0L, 1L)), class = "data.frame", row.names = c(NA, 
+-11L)), vnam = "temp_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"37.1\", \"37.2\", \"37.3\", \"37.4\", \"37.5\", \"37.6\", \"39.3\". 
+
+
+
+\fullline
+
+## temp\_max
+
+\bminione
+
+------------------------------------
+Feature                       Result
+------------------------- ----------
+Variable type                numeric
+
+Number of missing obs.       0 (0 %)
+
+Number of unique values           51
+
+Median                          37.4
+
+1st and 3rd quartiles       37; 38.2
+
+Min. and max.               34; 40.7
+------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-131-temp-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(34, 34.5, 35, 35.5, 
+36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5), xmax = c(34.5, 
+35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41
+), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(1L, 
+0L, 2L, 9L, 47L, 242L, 184L, 125L, 96L, 70L, 64L, 20L, 5L, 1L
+)), class = "data.frame", row.names = c(NA, -14L)), vnam = "temp_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"34\", \"35.3\", \"35.4\", \"35.6\", \"35.8\", \"35.9\", \"36\", \"36.1\", \"36.2\", \"36.3\" (2 additional values omitted). 
+
+
+
+\fullline
+
+## temp\_mean
+
+\bminione
+
+----------------------------------------
+Feature                           Result
+------------------------- --------------
+Variable type                    numeric
+
+Number of missing obs.           0 (0 %)
+
+Number of unique values              225
+
+Median                             36.84
+
+1st and 3rd quartiles       36.53; 37.15
+
+Min. and max.                   34; 39.3
+----------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-132-temp-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(34, 34.5, 35, 35.5, 
+36, 36.5, 37, 37.5, 38, 38.5, 39), xmax = c(34.5, 35, 35.5, 36, 
+36.5, 37, 37.5, 38, 38.5, 39, 39.5), ymin = c(0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0), ymax = c(1L, 0L, 7L, 35L, 163L, 370L, 196L, 
+53L, 34L, 6L, 1L)), class = "data.frame", row.names = c(NA, -11L
+)), vnam = "temp_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"34\", \"35.25\", \"35.33\", \"35.38\", \"35.4\", \"35.43\", \"35.45\", \"35.5\", \"35.53\", \"35.57\" (22 additional values omitted). 
+
+
+
+\fullline
+
+## so2\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          40
+
+Median                           92
+
+1st and 3rd quartiles        88; 94
+
+Min. and max.               41; 100
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-133-so2-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(40L, 45L, 50L, 55L, 
+60L, 65L, 70L, 75L, 80L, 85L, 90L, 95L), xmax = c(45L, 50L, 55L, 
+60L, 65L, 70L, 75L, 80L, 85L, 90L, 95L, 100L), ymin = c(0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(2L, 0L, 1L, 20L, 6L, 
+6L, 12L, 24L, 59L, 198L, 409L, 129L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "so2_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"41\", \"54\", \"59\", \"60\", \"61\", \"62\", \"63\", \"97\", \"98\", \"99\" (1 additional values omitted). 
+
+
+
+\fullline
+
+## so2\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          11
+
+Median                           98
+
+1st and 3rd quartiles        97; 99
+
+Min. and max.               88; 100
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-134-so2-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = 88:99, xmax = 89:100, 
+    ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(1L, 
+    1L, 0L, 8L, 5L, 31L, 44L, 102L, 143L, 171L, 159L, 201L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "so2_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"88\", \"90\", \"92\", \"93\". 
+
+
+
+\fullline
+
+## so2\_mean
+
+\bminione
+
+----------------------------------------
+Feature                           Result
+------------------------- --------------
+Variable type                    numeric
+
+Number of missing obs.           0 (0 %)
+
+Number of unique values              451
+
+Median                                95
+
+1st and 3rd quartiles       93.52; 96.67
+
+Min. and max.                    25; 100
+----------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-135-so2-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(25L, 30L, 35L, 40L, 
+45L, 50L, 55L, 60L, 65L, 70L, 75L, 80L, 85L, 90L, 95L), xmax = c(30L, 
+35L, 40L, 45L, 50L, 55L, 60L, 65L, 70L, 75L, 80L, 85L, 90L, 95L, 
+100L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 
+    ymax = c(7L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 5L, 
+    22L, 405L, 427L)), class = "data.frame", row.names = c(NA, 
+-15L)), vnam = "so2_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"25\", \"81.07\", \"81.33\", \"83.17\", \"84.29\", \"84.46\", \"85.57\", \"86.06\", \"86.89\", \"88\" (6 additional values omitted). 
+
+
+
+\fullline
+
+## rr\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          17
+
+Median                           18
+
+1st and 3rd quartiles        17; 20
+
+Min. and max.                 8; 32
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-136-rr-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(8L, 10L, 12L, 14L, 16L, 
+18L, 20L, 22L, 24L, 26L, 28L, 30L), xmax = c(10L, 12L, 14L, 16L, 
+18L, 20L, 22L, 24L, 26L, 28L, 30L, 32L), ymin = c(0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0), ymax = c(12L, 4L, 6L, 192L, 404L, 223L, 
+10L, 11L, 1L, 0L, 2L, 1L)), class = "data.frame", row.names = c(NA, 
+-12L)), vnam = "rr_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"8\", \"9\", \"10\", \"12\", \"26\", \"30\", \"32\". 
+
+
+
+\fullline
+
+## rr\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          27
+
+Median                           22
+
+1st and 3rd quartiles        20; 26
+
+Min. and max.                16; 50
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-137-rr-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(15L, 20L, 25L, 30L, 
+35L, 40L, 45L), xmax = c(20L, 25L, 30L, 35L, 40L, 45L, 50L), 
+    ymin = c(0, 0, 0, 0, 0, 0, 0), ymax = c(368L, 276L, 112L, 
+    46L, 41L, 8L, 15L)), class = "data.frame", row.names = c(NA, 
+-7L)), vnam = "rr_max")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"16\". 
+
+
+
+\fullline
+
+## rr\_mean
+
+\bminione
+
+-------------------------------------
+Feature                        Result
+------------------------- -----------
+Variable type                 numeric
+
+Number of missing obs.        0 (0 %)
+
+Number of unique values           302
+
+Median                          19.97
+
+1st and 3rd quartiles       19; 21.16
+
+Min. and max.               14.57; 40
+-------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-138-rr-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(14L, 16L, 18L, 20L, 
+22L, 24L, 26L, 28L, 30L, 32L, 34L, 36L, 38L), xmax = c(16L, 18L, 
+20L, 22L, 24L, 26L, 28L, 30L, 32L, 34L, 36L, 38L, 40L), ymin = c(0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ymax = c(6L, 63L, 441L, 
+223L, 68L, 23L, 19L, 11L, 6L, 3L, 0L, 0L, 3L)), class = "data.frame", row.names = c(NA, 
+-13L)), vnam = "rr_mean")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"14.57\", \"15.67\", \"15.8\", \"16\", \"16.67\", \"16.73\", \"16.75\", \"16.8\", \"16.86\", \"25.78\" (37 additional values omitted). 
+
+
+
+\fullline
+
+## fio2\_min
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          39
+
+Median                           21
+
+1st and 3rd quartiles        21; 21
+
+Min. and max.               21; 100
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-139-fio2-min', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(20L, 30L, 40L, 50L, 
+60L, 70L, 80L, 90L), xmax = c(30L, 40L, 50L, 60L, 70L, 80L, 90L, 
+100L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0), ymax = c(723L, 51L, 
+29L, 14L, 6L, 3L, 11L, 29L)), class = "data.frame", row.names = c(NA, 
+-8L)), vnam = "fio2_min")
+```
+
+\emini
+
+
+- Note that the following possible outlier values were detected: \"22\", \"24\", \"26\", \"28\", \"30\", \"31\", \"32\", \"34\", \"35\", \"36\" (28 additional values omitted). 
+
+
+
+\fullline
+
+## fio2\_max
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values          36
+
+Median                           40
+
+1st and 3rd quartiles        24; 50
+
+Min. and max.               21; 100
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-140-fio2-max', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(20L, 30L, 40L, 50L, 
+60L, 70L, 80L, 90L), xmax = c(30L, 40L, 50L, 60L, 70L, 80L, 90L, 
+100L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0), ymax = c(276L, 365L, 
+11L, 19L, 16L, 6L, 11L, 162L)), class = "data.frame", row.names = c(NA, 
+-8L)), vnam = "fio2_max")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## fio2\_mean
+
+\bminione
+
+---------------------------------------
+Feature                          Result
+------------------------- -------------
+Variable type                   numeric
+
+Number of missing obs.          0 (0 %)
+
+Number of unique values             257
+
+Median                               25
+
+1st and 3rd quartiles       21.6; 35.05
+
+Min. and max.                   21; 100
+---------------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-141-fio2-mean', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggHist(data = structure(list(xmin = c(20L, 30L, 40L, 50L, 
+60L, 70L, 80L, 90L), xmax = c(30L, 40L, 50L, 60L, 70L, 80L, 90L, 
+100L), ymin = c(0, 0, 0, 0, 0, 0, 0, 0), ymax = c(626L, 40L, 
+52L, 33L, 33L, 18L, 21L, 43L)), class = "data.frame", row.names = c(NA, 
+-8L)), vnam = "fio2_mean")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## mv
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-142-mv', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(800L, 66L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "mv")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## icu
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "0"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-143-icu', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(716L, 150L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "icu")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## levelofcare
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-144-levelofcare', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(81L, 785L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "levelofcare")
+```
+
+\emini
+
+
+
+
+\fullline
+
+## wave
+
+* Note that this variable is treated as a factor variable below, as it only takes a few unique values.
+
+\bminione
+
+-----------------------------------
+Feature                      Result
+------------------------- ---------
+Variable type               numeric
+
+Number of missing obs.      0 (0 %)
+
+Number of unique values           2
+
+Mode                            "1"
+
+Reference category                0
+-----------------------------------
+
+
+\emini
+\bminitwo
+```{r 'Var-145-wave', echo=FALSE, fig.width=4, fig.height=3, message=FALSE, warning=FALSE}
+ggAggBarplot(data = structure(list(x = structure(1:2, .Label = c("0", 
+"1"), class = "factor"), y = c(422L, 444L)), class = "data.frame", row.names = c(NA, 
+-2L)), vnam = "wave")
+```
+
+\emini
+
+
+
+
+\fullline
+
+
+
+Report generation information:
+
+ *  Created by: Eric Yamga (username: `eyamga`).
+
+ *  Report creation time: Tue Feb 02 2021 18:35:38
+
+ *  Report was run from directory: `/Users/eyamga/Documents/Médecine/Recherche/CODA19/git/CODA19-Phenotyper/r_eyamga`
+
+ *  dataMaid v1.4.0 [Pkg: 2019-12-10 from CRAN (R 4.0.2)]
+
+ *  R version 4.0.3 (2020-10-10).
+
+ *  Platform: x86_64-apple-darwin17.0 (64-bit)(macOS Catalina 10.15.7).
+
+ *  Function call: `dataMaid::makeDataReport(data = covid24h_imputed, render = FALSE, 
+    file = "coda19CHUM24h_imputed.rmd", replace = TRUE)`
+

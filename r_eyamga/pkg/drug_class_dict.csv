@@ -1,0 +1,460 @@
+,drug_name,drug_class
+0,acetaminophene,Acetaminophene
+1,amoxicilline/clavulanate,Anti-Bacterial Agents
+2,citalopram,Serotonin Uptake Inhibitors
+3,clotrimazole,"Anti-Infective Agents, Local"
+4,dexlansoprazole,Anti-Ulcer Agents
+5,dextrose 5%,0
+6,dimenhydrinate,Antiemetics
+7,diphenhydramine,"Sleep Aids, Pharmaceutical"
+8,domperidone,Antiemetics
+9,enoxaparine,Anticoagulants
+10,glycerine,Laxatives
+11,hydromorphone,"Analgesics, Opioid"
+12,latanoprost,Ophthalmic Solutions
+13,levothyroxine,Levothyroxine
+14,magnesium sulfate,Analgesics
+15,meropenem,Anti-Bacterial Agents
+16,morphine,"Analgesics, Opioid"
+17,multivitamines,0
+18,ondansetron,Antiemetics
+19,oxazepam,Benzodiazepines
+20,piperacilline/tazobactam,Anti-Bacterial Agents
+21,polyethylene glycol,Laxatives
+22,prednisone,Glucocorticoids
+23,pregabaline,0
+24,quetiapine,Antipsychotic Agents
+25,ranitidine,Anti-Ulcer Agents
+26,sennosides a-b,Laxatives
+27,sodium chloride 0.9%,0
+28,vancomycine,Anti-Bacterial Agents
+29,vitamin d3,Calcium-Regulating Hormones and Agents
+30,base dermique,0
+31,bisoprolol,Antihypertensive Agents
+32,hydrocortisone,Glucocorticoids
+33,lorazepam,Benzodiazepines
+34,metoclopramide,Antiemetics
+35,calcium carbonate,Vitamins
+36,calcium-sels,0
+37,donepezil,Cholinesterase Inhibitors
+38,esomeprazole,Anti-Ulcer Agents
+39,fer sulfate,0
+40,haloperidol,Antipsychotic Agents
+41,lactulose,Laxatives
+42,magnesium glucoheptonate,0
+43,magnesium gluconate,0
+44,metformine,Hypoglycemic Agents
+45,oxycodone,"Analgesics, Opioid"
+46,pantoprazole,Anti-Ulcer Agents
+47,risperidone,Antipsychotic Agents
+48,atorvastatine,Anticholesteremic Agents
+49,calciferol,Vitamins
+50,calcitriol,Calcium-Regulating Hormones and Agents
+51,calcium gluconate,0
+52,ciprofloxacine,Anti-Bacterial Agents
+53,dexamethasone,Glucocorticoids
+54,digoxine,Anti-Arrhythmia Agents
+55,folique acide,Vitamins
+56,furosemide,Diuretics
+57,heparine,Anticoagulants
+58,humulin r,Hypoglycemic Agents
+59,insulin aspart,0
+60,ipratropium/salbutamol,Bronchodilator Agents
+61,metronidazole,Anti-Bacterial Agents
+62,midazolam,Benzodiazepines
+63,novolin ge nph,Hypoglycemic Agents
+64,phosphate acide de sodium,Vitamins
+65,phosphate de potassium,Vitamins
+66,potassium chlorure,Vitamins
+67,spironolactone,Diuretics
+68,zinc oxyde,0
+69,zopiclone,Benzodiazepines
+70,aspirin,Platelet Aggregation Inhibitors
+71,azithromycine,Anti-Bacterial Agents
+72,ceftriaxone,Anti-Bacterial Agents
+73,cyanocobalamine,Vitamin B Complex
+74,humulin n,Hypoglycemic Agents
+75,ipratropium,Bronchodilator Agents
+76,nortriptyline,"Antidepressive Agents, Tricyclic"
+77,salbutamol,Bronchodilator Agents
+78,tamsulosine,Adrenergic alpha-1 Receptor Antagonists
+79,acetazolamide,Diuretics
+80,amlodipine,Antihypertensive Agents
+81,benztropine,Antiparkinson Agents
+82,cefazoline,Anti-Bacterial Agents
+83,dalteparine,Anticoagulants
+84,diazepam,Benzodiazepines
+85,famotidine,Anti-Ulcer Agents
+86,fentanyl,"Analgesics, Opioid"
+87,hydralazine,Antihypertensive Agents
+88,indapamide,Antihypertensive Agents
+89,labetalol,Antihypertensive Agents
+90,norepinephrine,Vasopressors
+91,olanzapine,Antipsychotic Agents
+92,phosphate de sodium,0
+93,propofol,Sedation
+94,scopolamine bromhydrate,0
+95,tobramycine,Anti-Bacterial Agents
+96,aripiprazole,Antipsychotic Agents
+97,gabapentine,Analgesics
+98,huile minerale lourde,0
+99,metoprolol,Anti-Arrhythmia Agents
+100,nifedipine,Antihypertensive Agents
+101,bisacodyl,Laxatives
+102,lidocaine,"Anesthetics, Local"
+103,sertraline,Antidepressive Agents
+104,tranexamique acide,0
+105,codeine,"Analgesics, Opioid"
+106,levetiracetam,Anticonvulsants
+107,tolterodine,Muscarinic Antagonists
+108,venlafaxine,Antidepressive Agents
+109,brinzolamide,Carbonic Anhydrase Inhibitors
+110,co-trimoxazole,Anti-Bacterial Agents
+111,finasteride,5-alpha Reductase Inhibitors
+112,hydrocortisone/zinc,0
+113,lidocaine+chlorhexidine,0
+114,lisinopril,Antihypertensive Agents
+115,methylprednisolone,Glucocorticoids
+116,oxybutynine,Parasympatholytics
+117,polystyrene sulfonate,Chelating Agents
+118,ramipril,Antihypertensive Agents
+119,sodium chlorure,0
+120,docusate sodique,Laxatives
+121,glycopyrronium bromide,Bronchodilator Agents
+122,glycopyrronium+indacaterol,Bronchodilator Agents
+123,indacaterol,Bronchodilator Agents
+124,mirtazapine,Antidepressive Agents
+125,rosuvastatine,Anticholesteremic Agents
+126,pravastatine,Anticholesteremic Agents
+127,rivaroxaban,Factor Xa Inhibitors
+128,tacrolimus,Immunosuppressive Agents
+129,biphosphate/phosphate de sodium,0
+130,methotrimeprazine,Antipsychotic Agents
+131,midodrine,Vasopressors
+132,moxifloxacine,Anti-Bacterial Agents
+133,cisatracurium,Neuromuscular Blocking Agents
+134,dexmedetomidine,Sedation
+135,indomethacine,0
+136,metolazone,Diuretics
+137,nystatine,0
+138,insulin glargine,Hypoglycemic Agents
+139,silodosine,0
+140,doxycycline,Anti-Bacterial Agents
+141,methadone,"Analgesics, Opioid"
+142,vitamin b1,Vitamins
+143,aluminium,0
+144,cinacalcet,Calcium-Regulating Hormones and Agents
+145,clopidogrel,Platelet Aggregation Inhibitors
+146,darbepoetine alfa,0
+147,formoterol/budesonide,Bronchodilator Agents
+148,sevelamer carbonate,Chelating Agents
+149,clonazepam,Benzodiazepines
+150,hypromellose,0
+151,lamotrigine,Anticonvulsants
+152,paraffine+huile minerale (ou equivalent),0
+153,terbinafine,Antifungal Agents
+154,triamcinolone acetonide,Anti-Inflammatory Agents
+155,divalproex,Anticonvulsants
+156,alprazolam,Benzodiazepines
+157,apixaban,Factor Xa Inhibitors
+158,candesartan,Antihypertensive Agents
+159,diclofenac,"Anti-Inflammatory Agents, Non-Steroidal"
+160,en sa possession: nom generique+dosage,0
+161,amiodarone,Anti-Arrhythmia Agents
+162,nitroglycerine,Vasodilator Agents
+163,perindopril,Antihypertensive Agents
+164,pramipexole,Antiparkinson Agents
+165,sitagliptine,Hypoglycemic Agents
+166,solifenacine,0
+167,levodopa/benserazide,Antiparkinson Agents
+168,levodopa/carbidopa/entacapone 150/37.5/200 mg,Antiparkinson Agents
+169,"stalevo 125/31,25/200 mg",Antiparkinson Agents
+170,warfarine,Anticoagulants
+171,alendronate,Bone Density Conservation Agents
+172,celecoxib,"Anti-Inflammatory Agents, Non-Steroidal"
+173,insulin lispro,Hypoglycemic Agents
+174,irbesartan,Antihypertensive Agents
+175,clotrimazole 0.5%/hydrocortisone 0.5%,0
+176,repaglinide,Hypoglycemic Agents
+177,tiotropium,Bronchodilator Agents
+178,selenium sulfure,0
+179,uree,0
+180,ertapenem,Anti-Bacterial Agents
+181,semaglutide,Hypoglycemic Agents
+182,trazodone,Vasopressors
+183,octreotide,Gastrointestinal Agents
+184,carboxymethylcellulose,Laxatives
+185,medroxyprogesterone,"Contraceptive Agents, Hormonal"
+186,vitamin c,Vitamins
+187,bicarbonate sodium,Bicarbonate
+188,caspofongine,Antifungal Agents
+189,insulin degludec,Hypoglycemic Agents
+190,prochlorperazine,Antiemetics
+191,valacyclovir,Antiviral Agents
+192,voriconazole,Antifungal Agents
+193,triethanolamine salicylate,0
+194,escitalopram,Antidepressive Agents
+195,fludrocortisone,Anti-Inflammatory Agents
+196,rivastigmine,Cholinesterase Inhibitors
+197,timolol,Adrenergic beta-Antagonists
+198,aluminium/magnesium,0
+199,mycophenolate mofetil,Immunosuppressive Agents
+200,pancrelipase,Gastrointestinal Agents
+201,magique gargarisme,0
+202,allopurinol,Antimetabolites
+203,ciclesonide,0
+204,cyclobenzaprine,Analgesics
+205,diltiazem,Antihypertensive Agents
+206,umeclidinium/vilanterol,Bronchodilator Agents
+207,#lopinavir+ritonavir,0
+208,betahistine,Vasodilator Agents
+209,bupropion,Smoking Cessation Agents
+210,fluticasone,Bronchodilator Agents
+211,iode/povidone,0
+212,colchicine,Gout Suppressants
+213,brimonidine,0
+214,cefixime,Anti-Bacterial Agents
+215,estradiol,"Contraceptive Agents, Hormonal"
+216,phenytoine,Anticonvulsants
+217,sevelamer chlorhydrate,Bone Density Conservation Agents
+218,cefadroxil,Anti-Bacterial Agents
+219,hydroxychloroquine,Antimalarials
+220,methotrexate,Immunosuppressive Agents
+221,mirabegron,Adrenergic beta-3 Receptor Agonists
+222,alfacalcidol,Bone Density Conservation Agents
+223,risedronate,Bone Density Conservation Agents
+224,valproique acide,Antidepressive Agents
+225,loratadine,Antipruritics
+226,saxagliptine,Hypoglycemic Agents
+227,nadolol,Adrenergic beta-Antagonists
+228,triamterene/hydrochlorothiazide,0
+229,zolmitriptan,Serotonin 5-HT1 Receptor Agonists
+230,clozapine,Antipsychotic Agents
+231,budesonide,Anti-Inflammatory Agents
+232,fidaxomicine,Anti-Bacterial Agents
+233,travoprost,Antihypertensive Agents
+234,baclofene,0
+235,hydrochlorothiazide,Diuretics
+236,simvastatine,Anticholesteremic Agents
+237,alfuzosine,Adrenergic alpha-1 Receptor Antagonists
+238,fluvoxamine,Anti-Anxiety Agents
+239,ropinirole,Antiparkinson Agents
+240,loperamide,Antidiarrheals
+241,lidocaine hydrochloride,"Anesthetics, Local"
+242,dorzolamide,0
+243,zoledronate,Bone Density Conservation Agents
+244,insulin glulisine,Hypoglycemic Agents
+245,lithium carbonate,Bone Density Conservation Agents
+246,terazosine,Adrenergic alpha-1 Receptor Antagonists
+247,zinc gluconate,0
+248,amitriptyline,Antidepressive Agents
+249,fluocinonide,Anti-Inflammatory Agents
+250,nicotine,Smoking Cessation Agents
+251,salmeterol/fluticasone,Bronchodilator Agents
+252,telmisartan,Antihypertensive Agents
+253,atenolol,Adrenergic beta-Antagonists
+254,polyethylene glycol et electrolytes,0
+255,dulaglutide,Hypoglycemic Agents
+256,gliclazide,Hypoglycemic Agents
+257,levodopa/carbidopa,Antiparkinson Agents
+258,hors form: inscrire nom generique+dosage,0
+259,ceftazidime,Anti-Bacterial Agents
+260,orphenadrine citrate,0
+261,topiramate,Anticonvulsants
+262,captopril,Antihypertensive Agents
+263,eptifibatide,Platelet Aggregation Inhibitors
+264,fluconazole,Antifungal Agents
+265,nitroprussiate,0
+266,penicilline g sodique,Anti-Bacterial Agents
+267,propranolol,Adrenergic beta-Antagonists
+268,novolin ge 30/70,Hypoglycemic Agents
+269,novolin ge 50/50,Hypoglycemic Agents
+270,acetylcysteine,Antiviral Agents
+271,chlorhexidine,0
+272,filgrastim,Hematologic Agents
+273,hydroxyzine,Antipruritics
+274,protamine,Heparin Antagonists
+275,vasopressine,Vasopressors
+276,vitamin k,Antifibrinolytic Agents
+277,glycopyrrolate,"Adjuvants, Anesthesia"
+278,riluzole,Anticonvulsants
+279,alteplase,Fibrinolytic Agents
+280,fer gluconate,0
+281,methylphenidate,Central Nervous System Stimulants
+282,ampicilline,Anti-Bacterial Agents
+283,formoterol/mometasone,Bronchodilator Agents
+284,ezetimibe,Anticholesteremic Agents
+285,fenofibrate,Anticholesteremic Agents
+286,isosorbide mononitrate,Vasodilator Agents
+287,mupirocine,0
+288,progesterone,Progestins
+289,naproxene,"Anti-Inflammatory Agents, Non-Steroidal"
+290,buprenorphine et naloxone,0
+291,cefuroxime axetil,Anti-Bacterial Agents
+292,cholestyramine,Anticholesteremic Agents
+293,rilpivirine,Reverse Transcriptase Inhibitors
+294,amoxicilline,Anti-Bacterial Agents
+295,desmopressine,Hemostatics
+296,dextromethorphan,Antitussive Agents
+297,l-arginine,0
+298,desonide,Anti-Inflammatory Agents
+299,nitrofurantoine,Anti-Bacterial Agents
+300,ticagrelor,Platelet Aggregation Inhibitors
+301,betamethasone valerate,Anti-Inflammatory Agents
+302,epoetine alfa,0
+303,clindamycine,Anti-Bacterial Agents
+304,vitamin b6,Vitamins
+305,clonidine,Antihypertensive Agents
+306,lactase,0
+307,dantrolene,"Muscle Relaxants, Central"
+308,novolin ge toronto,Hypoglycemic Agents
+309,vitamin d,Vitamins
+310,sulfadiazine d'argent,0
+311,atropine sulfate,0
+312,cosyntropine,0
+313,levofloxacine,Anti-Bacterial Agents
+314,petrolatum blanc,0
+315,tizanidine,0
+316,hydroxyuree,0
+317,multivitamines hydrosolubles,0
+318,esmolol,Adrenergic beta-1 Receptor Antagonists
+319,rocuronium,Neuromuscular Blocking Agents
+320,timolol/latanoprost,0
+321,beclomethasone,0
+322,duloxetine,Antidepressive Agents
+323,montelukast,Anti-Asthmatic Agents
+324,tetrabenazine,Adrenergic Uptake Inhibitors
+325,dapagliflozine,Hypoglycemic Agents
+326,vaccin hepatite b,0
+327,vitamin e,Vitamins
+328,vitamine a,Vitamins
+329,melatonine,0
+330,dextrose,0
+331,empagliflozine,Hypoglycemic Agents
+332,enalapril,Antihypertensive Agents
+333,sucralfate,Anti-Ulcer Agents
+334,testosterone enanthate,Androgens
+335,moclobemide,Antidepressive Agents
+336,ursodiol,Cholagogues and Choleretics
+337,darunavir,HIV medication
+338,dolutegravir,HIV medication
+339,etravirine,HIV medication
+340,mycophenolate sodium,Immunosuppressive Agents
+341,pamidronate disodique,0
+342,ritonavir,HIV medication
+343,memantine,Antiparkinson Agents
+344,betamethasone dipropionate,Anti-Inflammatory Agents
+345,naltrexone,Alcohol Deterrents
+346,prazosine,Antihypertensive Agents
+347,prednisolone,Glucocorticoids
+348,entecavir,Antitubercular Agents
+349,insulin detemir,Hypoglycemic Agents
+350,terbutaline,Bronchodilator Agents
+351,aclidinium,Bronchodilator Agents
+352,dobutamine,Vasopressors
+353,dopamine,Vasopressors
+354,ethambutol,Antitubercular Agents
+355,formoterol,Bronchodilator Agents
+356,isoniazide,Antitubercular Agents
+357,rifampine,Antitubercular Agents
+358,polymyxine-b/bacitracine,0
+359,edoxaban,Factor Xa Inhibitors
+360,paroxetine,Antidepressive Agents
+361,salive artificielle,0
+362,ceftobiprole,0
+363,daptomycine,Anti-Bacterial Agents
+364,febuxostat,Gout Suppressants
+365,lanthane hydrate,0
+366,dutasteride,5-alpha Reductase Inhibitors
+367,flecainide,Anti-Arrhythmia Agents
+368,colistimethate,Anti-Bacterial Agents
+369,danaparoide,Anticoagulants
+370,vaccin oreillons+rougeole+rubeole,0
+371,olmesartan medoxomil,Antihypertensive Agents
+372,sotalol,Adrenergic beta-Antagonists
+373,methimazole,Antithyroid Agents
+374,milrinone,Vasopressors
+375,paliperidone,Antipsychotic Agents
+376,clobazam,Anticonvulsants
+377,lacosamide,Anticonvulsants
+378,perampanel,0
+379,lenalidomide,Immunologic Factors
+380,argatroban,Anticoagulants
+381,cetylpyridinium,"Anti-Infective Agents, Local"
+382,fondaparinux,Anticoagulants
+383,oseltamivir,Antiviral Agents
+384,pilocarpine,Miotics
+385,glyburide,Hypoglycemic Agents
+386,carbamazepine,Anticonvulsants
+387,mannitol,"Diuretics, Osmotic"
+388,naloxone,Narcotic Antagonists
+389,abacavir,HIV medication
+390,lamivudine,HIV medication
+391,loxapine,Antipsychotic Agents
+392,theophylline,Bronchodilator Agents
+393,valsartan,Antihypertensive Agents
+394,atropine,"Adjuvants, Anesthesia"
+395,pirfenidone,Analgesics
+396,umeclidinium,Bronchodilator Agents
+397,vilanterol et fluticasone,Bronchodilator Agents
+398,procyclidine,Antiparkinson Agents
+399,diphenoxylate/atropine,0
+400,chlorpromazine,Antiemetics
+401,erythromycine lactobionate,0
+402,"hydromorphone ds nacl 0,9% (acp)",0
+403,liraglutide,Hypoglycemic Agents
+404,polymyxine-b/gramicidine,0
+405,acides amines+dextrose,0
+406,cloxacilline,Anti-Bacterial Agents
+407,romiplostim,0
+408,doxepine,0
+409,ketamine,Analgesics
+410,nalbuphine,"Analgesics, Opioid"
+411,chlorthalidone,Antihypertensive Agents
+412,anastrozole,"Antineoplastic Agents, Hormonal"
+413,bacitracine,0
+414,acyclovir,Antiviral Agents
+415,linezolide,Anti-Bacterial Agents
+416,tenofovir disoproxil,HIV medication
+417,biktarvy,HIV medication
+418,denosumab,Bone Density Conservation Agents
+419,doravirine,HIV medication
+420,sorbitol,Cathartics
+421,zoledronic acid,Bone Density Conservation Agents
+422,fluoxetine,Antidepressive Agents
+423,magnesium hydroxyde,0
+424,carvedilol,Adrenergic beta-Antagonists
+425,fer saccharose,0
+426,azathioprine,Immunosuppressive Agents
+427,calcium chlorure,0
+428,cyproheptadine,Antipruritics
+429,epinephrine,Vasopressors
+430,epoprostenol,Antihypertensive Agents
+431,linagliptine,Hypoglycemic Agents
+432,goudron mineral+acide salicylique,0
+433,losartan,Antihypertensive Agents
+434,chlorhexidine+alcool,0
+435,teriflunomide,0
+436,trandolapril,Antihypertensive Agents
+437,lurasidone,Antipsychotic Agents
+438,zuclopenthixol,Antipsychotic Agents
+439,verapamil,Anti-Arrhythmia Agents
+440,5-aminosalicylique acide,0
+441,ceftolozane/tazobactam,Anti-Bacterial Agents
+442,gentamicine,Anti-Bacterial Agents
+443,tigecycline,Anti-Bacterial Agents
+444,lipid injectable emulsion,0
+445,fosfomycine,Anti-Bacterial Agents
+446,oxcarbazepine,Anticonvulsants
+447,entacapone,Antiparkinson Agents
+448,doxylamine/pyridoxine,Vitamin B Complex
+449,collagenase,0
+450,tiotropium/olodaterol,0
+451,*attention : ecmo v-a en cours*,0
+452,citrate de sodium,0
+453,nabilone,Antiemetics
+454,primidone,Anticonvulsants
+455,cefepime,Anti-Bacterial Agents
+456,lopinavir+ritonavir,HIV medication
+457,l-tryptophane,0
+458,zoplicone,0

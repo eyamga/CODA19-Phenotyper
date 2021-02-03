@@ -68,7 +68,7 @@ SELECT
 	patient_site_uid, -- min(lab_result_value) AS lab_min
 	-- *CBC**
 	-- Hemoglobin
-	min( CASE WHEN lab_name = 'hemoglobin' THEN
+	min(CASE WHEN lab_name = 'hemoglobin' THEN
 		lab_result_value
 	ELSE
 		NULL
@@ -120,17 +120,17 @@ SELECT
 	-- *CHEM*
 	-- Albumin
 	min(
-		CASE WHEN lab_name = 'albumin' THEN
+		CASE WHEN lab_name = 'albumin' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS albumin_min, max(
-		CASE WHEN lab_name = 'albumin' THEN
+		CASE WHEN lab_name = 'albumin' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS albumin_max, round(avg(
-			CASE WHEN lab_name = 'albumin' THEN
+			CASE WHEN lab_name = 'albumin' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
@@ -154,68 +154,68 @@ SELECT
 			END), 2) AS globulin_mean,
 	-- Total Protein
 	min(
-		CASE WHEN lab_name = 'total_protein' THEN
+		CASE WHEN lab_name = 'total_protein' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS protein_min, max(
-		CASE WHEN lab_name = 'total_protein' THEN
+		CASE WHEN lab_name = 'total_protein' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS protein_max, round(avg(
-			CASE WHEN lab_name = 'total_protein' THEN
+			CASE WHEN lab_name = 'total_protein' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
 			END), 2) AS protein_mean,
 	-- Sodium
 	min(
-		CASE WHEN lab_name = 'sodium' THEN
+		CASE WHEN lab_name = 'sodium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS sodium_min, max(
-		CASE WHEN lab_name = 'sodium' THEN
+		CASE WHEN lab_name = 'sodium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS sodium_max, round(avg(
-			CASE WHEN lab_name = 'sodium' THEN
+			CASE WHEN lab_name = 'sodium' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
 			END), 2) AS sodium_mean,
 	-- Chloride
 	min(
-		CASE WHEN lab_name = 'chloride' THEN
+		CASE WHEN lab_name = 'chloride' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS chloride_min, max(
-		CASE WHEN lab_name = 'chloride' THEN
+		CASE WHEN lab_name = 'chloride' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS chloride_max, round(avg(
-			CASE WHEN lab_name = 'chloride' THEN
+			CASE WHEN lab_name = 'chloride' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
 			END), 2) AS chloride_mean,
 	-- Potassium
 	min(
-		CASE WHEN lab_name = 'potassium' THEN
+		CASE WHEN lab_name = 'potassium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS potassium_min, max(
-		CASE WHEN lab_name = 'potassium' THEN
+		CASE WHEN lab_name = 'potassium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS potassium_max, round(avg(
-			CASE WHEN lab_name = 'potassium' THEN
+			CASE WHEN lab_name = 'potassium' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
@@ -256,17 +256,17 @@ SELECT
 			END), 2) AS bun_mean,
 	-- Calcium
 	min(
-		CASE WHEN lab_name = 'calcium' THEN
+		CASE WHEN lab_name = 'calcium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS calcium_min, max(
-		CASE WHEN lab_name = 'calcium' THEN
+		CASE WHEN lab_name = 'calcium' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS calcium_max, round(avg(
-			CASE WHEN lab_name = 'calcium' THEN
+			CASE WHEN lab_name = 'calcium' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
@@ -307,17 +307,17 @@ SELECT
 			END), 2) AS phosphate_mean,
 	-- Creatinine
 	min(
-		CASE WHEN lab_name = 'creatinine' THEN
+		CASE WHEN lab_name = 'creatinine' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS creatinine_min, max(
-		CASE WHEN lab_name = 'creatinine' THEN
+		CASE WHEN lab_name = 'creatinine' AND lab_sample_type != 'urine' THEN
 			lab_result_value
 		ELSE
 			NULL
 		END) AS creatinine_max, round(avg(
-			CASE WHEN lab_name = 'creatinine' THEN
+			CASE WHEN lab_name = 'creatinine' AND lab_sample_type != 'urine' THEN
 				lab_result_value
 			ELSE
 				NULL
@@ -355,7 +355,7 @@ SELECT
 				lab_result_value
 			ELSE
 				NULL
-			END), 2) AS glucose_max,
+			END), 2) AS glucose_mean,
 	-- AnionGAP original
 	min(
 		CASE WHEN lab_name = 'anion_gap' THEN
@@ -367,7 +367,7 @@ SELECT
 			lab_result_value
 		ELSE
 			NULL
-		END) AS anion_gap_min, round(avg(
+		END) AS anion_gap_max, round(avg(
 			CASE WHEN lab_name = 'anion_gap' THEN
 				lab_result_value
 			ELSE
@@ -700,23 +700,6 @@ SELECT
 			ELSE
 				NULL
 			END), 2) AS bili_indirect_mean,
-	-- Lipase
-	min(
-		CASE WHEN lab_name = 'lipase' THEN
-			lab_result_value
-		ELSE
-			NULL
-		END) AS lipase_min, max(
-		CASE WHEN lab_name = 'lipase' THEN
-			lab_result_value
-		ELSE
-			NULL
-		END) AS lipase_max, round(avg(
-			CASE WHEN lab_name = 'lipase' THEN
-				lab_result_value
-			ELSE
-				NULL
-			END), 2) AS lipase_mean,
 	-- CK
 	min(
 		CASE WHEN lab_name = 'creatine_kinase' THEN
@@ -819,7 +802,7 @@ SELECT
 				lab_result_value
 			ELSE
 				NULL
-			END), 2) AS svo2sat_max,
+			END), 2) AS svo2sat_mean,
 	-- PAO2
 	min(
 		CASE WHEN lab_name = 'po2' AND lab_sample_type = 'arterial_blood' THEN
@@ -968,7 +951,7 @@ SELECT
 			lab_result_value
 		ELSE
 			NULL
-		END) AS bnp_min, round(avg(
+		END) AS bnp_max, round(avg(
 			CASE WHEN lab_name = 'nt_pro_bnp' THEN
 				lab_result_value
 			ELSE
