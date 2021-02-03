@@ -139,6 +139,8 @@ for(i in 2:8){
 
 options(repr.plot.width = 20, repr.plot.height = 20)
 p <- plot_grid(plotlist = plotslist, ncol = 3)
+
+
 ggsave2("./output/clustering/pamcluster_tsneformultipleK.svg", plot =p, width=20,height=20, limitsize = FALSE)
 
 
@@ -208,8 +210,13 @@ pam_results <- coda19 %>%
 # This is also done later through EDA
 #print(pam_results$the_summary)
 
-
-
+# 
+# 
+# result2 <- coda19 %>%
+#   mutate(cluster = pam_fit$clustering)
+# 
+# library(M3C)
+# tsne(gower_distance, labels=as.factor(result2$cluster))
 
 # Plotting the results : TSNE  -------------------------------------
 
@@ -220,6 +227,7 @@ tsne_data <- tsne_obj$Y %>%
   data.frame() %>%
   setNames(c("X", "Y")) %>%
   mutate(Clusters = factor(pam_fit$clustering))
+
 
 
 p <- ggplot(aes(x = X, y = Y,), data = tsne_data) +
