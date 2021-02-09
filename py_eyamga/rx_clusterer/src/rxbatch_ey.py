@@ -43,7 +43,7 @@ def minibatch_train(size, seed):
     for i in range(size):
         sample_img = train_imgs[train_batch_index[i]]
         sample_id = train_ids[train_batch_index[i]]
-        #img = img / 255.
+        img = img.astype('float32') / 255.0 - 0.5
         train_batch_imgs.append(sample_img)
         train_batch_ids.append(sample_id)
 

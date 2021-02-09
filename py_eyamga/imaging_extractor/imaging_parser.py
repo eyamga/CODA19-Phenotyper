@@ -192,3 +192,8 @@ with h5py.File(EXPORTPATH + '/data.h5', 'r') as hf:
 dataset = h5py.File(EXPORTPATH + '/data2.h5', 'r')
 
 #%%  Deep Learning Application starts here
+def show_image(x):
+    x.astype('float32') / 255.0 - 0.5
+    #plt.imshow(np.clip(x + 0.5, 0, 1))
+    plt.imshow(x)
+    plt.show()
